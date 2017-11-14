@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Максим Грушников](https://up.htmlacademy.ru/javascript/11/user/461451).
-* Наставник: `Неизвестно`.
+* Наставник: [Иван Васильев](https://up.htmlacademy.ru/javascript/11/user/35502).
 
 ---
 
