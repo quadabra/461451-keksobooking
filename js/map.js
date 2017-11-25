@@ -11,6 +11,10 @@ var getRandomArray = function (arr) {
   return randomArr;
 };
 
+var getRandomValue = function (min, max) {
+  var value = Math.round(Math.random() * (max - min) + min);
+};
+
 var avatarList = (function () {
   var list = [];
   for (var i = 0; i < generateObjects; i++) {
@@ -30,15 +34,46 @@ var titleList = [
   'Неуютное бунгало по колено в воде'
 ];
 
-var addressList = (function () {
-  var list = [];
-  var x = 0;
-  var y = 0;
-  for (var i = 0; i < generateObjects; i++) {
-    x = Math.round(Math.random() * 600) + 300;
-    y = Math.round(Math.random() * 400) + 100;
-    list[[i][1]] = x;
-    list[[i][2]] = y;
+var timesCheck = ['12:00', '13:00', '14:00'];
+
+var typeList = ['flat', 'house', 'bungalo'];
+
+var featuresList = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
+];
+
+var photosList = [];
+
+var map = (function (objectsAmount) {
+  var objects = [];
+  for (var i = 0; i < objectsAmount; i++) {
+    objects[i] = {
+      'author':  {
+        'avatar': avatarList[i]
+      },
+      'offer': {
+        'title': getRandomArray(titleList)[i],
+        'address': '{{location.x}}, {{location.y}}',
+        'price': getRandomValue(1000, 1000000),
+        'type' : typeList[getRandomValue(1, 3)],
+        'rooms': getRandomValue(1, 5),
+        'guests': getRandomValue(1, 100),
+        'checkin': timesCheck[getRandomValue(1, 3)],
+        'checkout': timesCheck[getRandomValue(1, 3)],
+        'features': getRandomArray(featuresList)[i],
+        'description': '',
+        'photos': photosList[i]
+      },
+      'location': {
+        'x': getRandomValue(300, 900),
+        'y': getRandomValue(100, 500)
+      }
+    }
   }
-  return list;
-});
+
+})(generateObjects);
