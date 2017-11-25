@@ -73,7 +73,12 @@ var map = (function (objectsAmount) {
         'x': getRandomValue(300, 900),
         'y': getRandomValue(100, 500)
       }
-    }
+    };
   }
   return objects;
 })(generateObjects);
+
+var mapBlock = document.querySelector('.map');
+mapBlock.classList.remove('map-faded');
+
+
