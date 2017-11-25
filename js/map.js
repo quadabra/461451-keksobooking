@@ -34,9 +34,9 @@ var titleList = [
   'Неуютное бунгало по колено в воде'
 ];
 
-var timesCheck = ['12:00', '13:00', '14:00'];
-
 var typeList = ['flat', 'house', 'bungalo'];
+
+var timesCheck = ['12:00', '13:00', '14:00'];
 
 var featuresList = [
   'wifi',
