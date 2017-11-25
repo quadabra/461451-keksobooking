@@ -12,7 +12,7 @@ var getRandomArray = function (arr) {
 };
 
 var getRandomValue = function (min, max) {
-  var value = Math.round(Math.random() * (max - min) + min);
+  return Math.round(Math.random() * (max - min) + min);
 };
 
 var avatarList = (function () {
@@ -53,14 +53,14 @@ var map = (function (objectsAmount) {
   var objects = [];
   for (var i = 0; i < objectsAmount; i++) {
     objects[i] = {
-      'author':  {
+      'author': {
         'avatar': avatarList[i]
       },
       'offer': {
         'title': getRandomArray(titleList)[i],
         'address': '{{location.x}}, {{location.y}}',
         'price': getRandomValue(1000, 1000000),
-        'type' : typeList[getRandomValue(1, 3)],
+        'type': typeList[getRandomValue(1, 3)],
         'rooms': getRandomValue(1, 5),
         'guests': getRandomValue(1, 100),
         'checkin': timesCheck[getRandomValue(1, 3)],
@@ -75,5 +75,5 @@ var map = (function (objectsAmount) {
       }
     }
   }
-
+  return objects;
 })(generateObjects);
