@@ -38,7 +38,20 @@ var titleList = [
   'Неуютное бунгало по колено в воде'
 ];
 
+var randomTitles = getRandomArray(titleList);
+
 var typeList = ['flat', 'house', 'bungalo'];
+var typeEqual = ['Квартира', 'Дом', 'Бунгало'];
+
+var replace = function (type) {
+  var equal;
+  for (var i = 0; i < typeList.length; i++) {
+    if (type === typeList[i]) {
+      equal = typeEqual[i]
+    }
+  }
+  return equal;
+};
 
 var timesCheck = ['12:00', '13:00', '14:00'];
 
@@ -51,7 +64,6 @@ var featuresList = [
   'conditioner'
 ];
 
-var randomTitles = getRandomArray(titleList);
 
 var generateFeatures = function (arr, amount) {
   var list = [];
@@ -69,6 +81,20 @@ var randomFeatures = generateFeatures(featuresList, generateObjects);
 
 var photosList = [];
 
+var generateLocations = function (min, max, amount) {
+  var coordinates = [];
+  for (var i = 0; i < amount; i++) {
+    coordinates[i] = getRandomValue(min, max);
+  }
+  return coordinates;
+};
+var minX = 300;
+var maxX = 900;
+var minY = 100;
+var maxY = 500;
+var locationsX = generateLocations(minX, maxX, generateObjects);
+var locationsY = generateLocations(minY, maxY, generateObjects);
+
 var generateHotels = function (objectsAmount) {
   var objects = [];
   for (var i = 0; i < objectsAmount; i++) {
@@ -78,9 +104,9 @@ var generateHotels = function (objectsAmount) {
       },
       'offer': {
         'title': randomTitles[i],
-        'address': '{{location.x}}, {{location.y}}',
+        'address': locationsX[i] + ', ' + locationsY[i],
         'price': getRandomValue(1000, 1000000),
-        'type': typeList[getRandomValue(1, 3)],
+        'type': typeList[getRandomValue(0, 2)],
         'rooms': getRandomValue(1, 5),
         'guests': getRandomValue(1, 100),
         'checkin': timesCheck[getRandomValue(1, 3)],
@@ -90,8 +116,8 @@ var generateHotels = function (objectsAmount) {
         'photos': photosList[i]
       },
       'location': {
-        'x': getRandomValue(300, 900),
-        'y': getRandomValue(100, 500)
+        'x': locationsX[i],
+        'y': locationsY[i]
       }
     };
   }
@@ -99,6 +125,14 @@ var generateHotels = function (objectsAmount) {
 };
 
 var hotels = generateHotels(generateObjects);
+
+var makeFragment = function (arr, templates) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < arr.length; i++) {
+    fragment.appendChild(templates(arr[i]));
+  }
+  return fragment;
+};
 
 var mapPins = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
@@ -110,15 +144,19 @@ var renderMapPin = function (hotel) {
   return mapPin;
 };
 
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < generateObjects; i++) {
-  fragment.appendChild(renderMapPin(hotels[i]));
-}
-mapPins.appendChild(fragment);
+mapPins.appendChild(makeFragment(hotels, renderMapPin));
 
+var mapBlock = document.querySelector('.map');
+var mapFilters = document.querySelector('.map__filters-container');
 var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
 var renderMapCard = function (hotel) {
   var mapCard = mapCardTemplate.cloneNode(true);
   mapCard.querySelector('h3').textContent = hotel.offer.title;
   mapCard.querySelector('small').textContent = hotel.offer.address;
+  mapCard.querySelector('.popup__price').textContent = hotel.offer.price + '&#x20bd;/ночь';
+  mapCard.querySelector('h4').textContent = replace(hotel.offer.type);
+
+  return mapCard;
 };
+
+mapBlock.insertBefore(makeFragment(hotels, renderMapCard), mapFilters);
