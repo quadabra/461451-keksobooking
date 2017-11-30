@@ -102,10 +102,12 @@ var hotels = generateHotels(generateObjects);
 
 var mapPins = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
-var renderMapPin = function (hotels) {
+var renderMapPin = function (hotel) {
   var mapPin = mapPinTemplate.cloneNode(true);
-  mapPin.style = 'left: {{location.x}}px; top: {{location.y}}px;';
-  mapPin.querySelector('img').src = '{{author.avatar}}';
+  mapPin.style.left = hotel.location.x + 'px';
+  mapPin.style.top = hotel.location.y + 'px';
+  mapPin.querySelector('img').src = hotel.author.avatar;
+  return mapPin;
 };
 
 var fragment = document.createDocumentFragment();
