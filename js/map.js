@@ -104,8 +104,8 @@ var mapPins = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var renderMapPin = function (hotel) {
   var mapPin = mapPinTemplate.cloneNode(true);
-  mapPin.style.left = hotel.location.x + 'px';
-  mapPin.style.top = hotel.location.y + 'px';
+  mapPin.style.left = (hotel.location.x - 20) + 'px';
+  mapPin.style.top = (hotel.location.y - 40) + 'px';
   mapPin.querySelector('img').src = hotel.author.avatar;
   return mapPin;
 };
@@ -114,5 +114,11 @@ var fragment = document.createDocumentFragment();
 for (var i = 0; i < generateObjects; i++) {
   fragment.appendChild(renderMapPin(hotels[i]));
 }
-
 mapPins.appendChild(fragment);
+
+var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
+var renderMapCard = function (hotel) {
+  var mapCard = mapCardTemplate.cloneNode(true);
+  mapCard.querySelector('h3').textContent = hotel.offer.title;
+  mapCard.querySelector('small').textContent = hotel.offer.address;
+};
