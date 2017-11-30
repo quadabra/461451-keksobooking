@@ -15,10 +15,15 @@ var getRandomValue = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 };
 
-var avatarList = [];
-for (var i = 0; i < generateObjects; i++) {
-  avatarList[i] = 'img/avatars/user' + '0' + (i + 1) + '.png';
-}
+var generateAvatars = function (amount) {
+  var list = [];
+  for (var i = 0; i < amount; i++) {
+    list[i] = 'img/avatars/user' + '0' + (i + 1) + '.png';
+  }
+  return list;
+};
+var avatarList = generateAvatars(generateObjects);
+
 
 var titleList = [
   'Большая уютная квартира',
@@ -95,5 +100,17 @@ var hotels = generateHotels(generateObjects);
 
 var mapBlock = document.querySelector('.map');
 mapBlock.classList.remove('map-faded');
+var mapPins = document.querySelector('.map__pins');
+var mapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
+var renderMapPin = function (hotels) {
+  var mapPin = mapPinTemplate.cloneNode(true);
+  mapPin.style = 'left: {{location.x}}px; top: {{location.y}}px;';
+  mapPin.querySelector('img').src = '{{author.avatar}}'
+};
 
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < generateObjects; i++) {
+  fragment.appendChild(renderMapPin(hotels[i]));
+}
 
+mapPins.appendChild(fragment);
