@@ -15,13 +15,10 @@ var getRandomValue = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 };
 
-var avatarList = (function () {
-  var list = [];
-  for (var i = 0; i < generateObjects; i++) {
-    list[i] = 'img/avatars/user' + '0' + (i + 1) + '.png';
-  }
-  return list;
-}());
+var avatarList = [];
+for (var i = 0; i < generateObjects; i++) {
+  avatarList[i] = 'img/avatars/user' + '0' + (i + 1) + '.png';
+}
 
 var titleList = [
   'Большая уютная квартира',
@@ -47,9 +44,25 @@ var featuresList = [
   'conditioner'
 ];
 
+var randomTitles = getRandomArray(titleList);
+
+var generateFeatures = function (arr, amount) {
+  var list = [];
+  for (var i = 0; i < amount; i++) {
+    var featuresCount = getRandomValue(1, arr.length);
+    var featuresRandom = getRandomArray(featuresList);
+    for (var j = 0; j < featuresCount; j++) {
+      list[i] = list[i] + ', ' + featuresRandom[j];
+    }
+  }
+  return list;
+};
+
+var randomFeatures = generateFeatures(featuresList, generateObjects);
+
 var photosList = [];
 
-var map = (function (objectsAmount) {
+var generateHotels = function (objectsAmount) {
   var objects = [];
   for (var i = 0; i < objectsAmount; i++) {
     objects[i] = {
@@ -57,7 +70,7 @@ var map = (function (objectsAmount) {
         'avatar': avatarList[i]
       },
       'offer': {
-        'title': getRandomArray(titleList)[i],
+        'title': randomTitles[i],
         'address': '{{location.x}}, {{location.y}}',
         'price': getRandomValue(1000, 1000000),
         'type': typeList[getRandomValue(1, 3)],
@@ -65,7 +78,7 @@ var map = (function (objectsAmount) {
         'guests': getRandomValue(1, 100),
         'checkin': timesCheck[getRandomValue(1, 3)],
         'checkout': timesCheck[getRandomValue(1, 3)],
-        'features': getRandomArray(featuresList)[i],
+        'features': randomFeatures[i],
         'description': '',
         'photos': photosList[i]
       },
@@ -76,7 +89,9 @@ var map = (function (objectsAmount) {
     };
   }
   return objects;
-})(generateObjects);
+};
+
+var hotels = generateHotels(generateObjects);
 
 var mapBlock = document.querySelector('.map');
 mapBlock.classList.remove('map-faded');
