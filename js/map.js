@@ -1,5 +1,7 @@
 'use strict';
 
+document.querySelector('.map').classList.remove('map--faded');
+
 var generateObjects = 8;
 var getRandomArray = function (arr) {
   var randomArr = [];
@@ -98,14 +100,12 @@ var generateHotels = function (objectsAmount) {
 
 var hotels = generateHotels(generateObjects);
 
-var mapBlock = document.querySelector('.map');
-mapBlock.classList.remove('map-faded');
 var mapPins = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var renderMapPin = function (hotels) {
   var mapPin = mapPinTemplate.cloneNode(true);
   mapPin.style = 'left: {{location.x}}px; top: {{location.y}}px;';
-  mapPin.querySelector('img').src = '{{author.avatar}}'
+  mapPin.querySelector('img').src = '{{author.avatar}}';
 };
 
 var fragment = document.createDocumentFragment();
