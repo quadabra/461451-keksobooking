@@ -136,7 +136,7 @@ var makeFeatureFragment = function (str) {
   var arr = str.split(', ');
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < arr.length; i++) {
-    var item =document.createElement('li');
+    var item = document.createElement('li');
     item.classList.add('feature');
     item.classList.add('feature--' + arr[i]);
     fragment.appendChild(item);
