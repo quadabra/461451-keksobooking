@@ -168,7 +168,7 @@ var renderMapCard = function (hotel) {
   mapCard.querySelector('img').src = hotel.author.avatar;
   mapCard.querySelector('h3').textContent = hotel.offer.title;
   mapCard.querySelector('small').textContent = hotel.offer.address;
-  mapCard.querySelector('.popup__price').textContent = hotel.offer.price + '&#x20bd;/ночь';
+  mapCard.querySelector('.popup__price').textContent = hotel.offer.price + '\u20BD/ночь';
   mapCard.querySelector('h4').textContent = replace(hotel.offer.type);
   mapCard.querySelector('p:nth-of-type(3)').textContent = hotel.offer.rooms + ' комнаты для '
     + hotel.offer.guests + ' гостей';
