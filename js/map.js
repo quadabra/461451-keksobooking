@@ -16,7 +16,7 @@ var generateAvatars = function (amount) {
   return list;
 };
 var avatarList = generateAvatars(generateObjects).sort(function () {
-  return 0.5 - Math.random()
+  return 0.5 - Math.random();
 });
 
 var titlesList = [
@@ -31,7 +31,7 @@ var titlesList = [
 ];
 
 titlesList.sort(function () {
-  return 0.5 - Math.random()
+  return 0.5 - Math.random();
 });
 
 var typeList = ['flat', 'house', 'bungalo'];
@@ -64,7 +64,7 @@ var generateFeatures = function (arr, amount) {
   for (var i = 0; i < amount; i++) {
     var count = getRandomValue(1, arr.length);
     var arrRandom = arr.sort(function () {
-      return 0.5 - Math.random()
+      return 0.5 - Math.random();
     });
     var arrNew = [];
     for (var j = 0; j < count; j++) {
