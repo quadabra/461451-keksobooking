@@ -3,15 +3,6 @@
 document.querySelector('.map').classList.remove('map--faded');
 
 var generateObjects = 8;
-var getRandomArray = function (arr) {
-  var randomArr = [];
-  for (var i = 0; i < arr.length; i++) {
-    var index = Math.floor(Math.random() * arr.length);
-    randomArr[i] = arr[index];
-    arr.splice(index, 1);
-  }
-  return randomArr;
-};
 
 var getRandomValue = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
@@ -24,10 +15,11 @@ var generateAvatars = function (amount) {
   }
   return list;
 };
-var avatarList = generateAvatars(generateObjects);
+var avatarList = generateAvatars(generateObjects).sort(function () {
+  return 0.5 - Math.random()
+});
 
-
-var titleList = [
+var titlesList = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
   'Огромный прекрасный дворец',
@@ -38,7 +30,9 @@ var titleList = [
   'Неуютное бунгало по колено в воде'
 ];
 
-var randomTitles = getRandomArray(titleList);
+titlesList.sort(function () {
+  return 0.5 - Math.random()
+});
 
 var typeList = ['flat', 'house', 'bungalo'];
 var typeEqual = ['Квартира', 'Дом', 'Бунгало'];
@@ -47,7 +41,7 @@ var replace = function (type) {
   var equal;
   for (var i = 0; i < typeList.length; i++) {
     if (type === typeList[i]) {
-      equal = typeEqual[i]
+      equal = typeEqual[i];
     }
   }
   return equal;
@@ -69,9 +63,11 @@ var generateFeatures = function (arr, amount) {
   var list = [];
   for (var i = 0; i < amount; i++) {
     var featuresCount = getRandomValue(1, arr.length);
-    var featuresRandom = getRandomArray(featuresList);
+    var featuresRandom = featuresList.sort(function () {
+      return 0.5 - Math.random()
+    });
     for (var j = 0; j < featuresCount; j++) {
-      list[i] = list[i] + ', ' + featuresRandom[j];
+      list[i] = list[i] + ',' + featuresRandom[j];
     }
   }
   return list;
@@ -103,14 +99,14 @@ var generateHotels = function (objectsAmount) {
         'avatar': avatarList[i]
       },
       'offer': {
-        'title': randomTitles[i],
+        'title': titlesList[i],
         'address': locationsX[i] + ', ' + locationsY[i],
         'price': getRandomValue(1000, 1000000),
         'type': typeList[getRandomValue(0, 2)],
         'rooms': getRandomValue(1, 5),
-        'guests': getRandomValue(1, 100),
-        'checkin': timesCheck[getRandomValue(1, 3)],
-        'checkout': timesCheck[getRandomValue(1, 3)],
+        'guests': getRandomValue(1, 10),
+        'checkin': timesCheck[getRandomValue(0, 2)],
+        'checkout': timesCheck[getRandomValue(0, 2)],
         'features': randomFeatures[i],
         'description': '',
         'photos': photosList[i]
@@ -134,6 +130,14 @@ var makeFragment = function (arr, templates) {
   return fragment;
 };
 
+var makeFeatureFragment = function (str) {
+  var arr = str.split(',');
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < arr.length; i++) {
+    fragment.appendChild();
+  }
+};
+
 var mapPins = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 var renderMapPin = function (hotel) {
@@ -149,13 +153,24 @@ mapPins.appendChild(makeFragment(hotels, renderMapPin));
 var mapBlock = document.querySelector('.map');
 var mapFilters = document.querySelector('.map__filters-container');
 var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
+var featureItem = mapCardTemplate.querySelector('.popup__features');
 var renderMapCard = function (hotel) {
   var mapCard = mapCardTemplate.cloneNode(true);
+  var featureList = mapCard.querySelector('.popup__features');
+  while (featureList.firstChild) {
+    featureList.removeChild(featureList.firstChild);
+  }
+  mapCard.querySelector('img').src = hotel.author.avatar;
   mapCard.querySelector('h3').textContent = hotel.offer.title;
   mapCard.querySelector('small').textContent = hotel.offer.address;
   mapCard.querySelector('.popup__price').textContent = hotel.offer.price + '&#x20bd;/ночь';
   mapCard.querySelector('h4').textContent = replace(hotel.offer.type);
-
+  mapCard.querySelector('p:nth-of-type(3)').textContent = hotel.offer.rooms + ' комнаты для '
+    + hotel.offer.guests + ' гостей';
+  mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + hotel.offer.checkin +
+    ', выезд до ' + hotel.offer.checkout;
+  featureList.appendChild()
+  mapCard.querySelector('p:last-of-type').textContent = hotel.offer.description;
   return mapCard;
 };
 
