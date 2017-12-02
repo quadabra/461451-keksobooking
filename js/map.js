@@ -62,13 +62,15 @@ var featuresList = [
 var generateFeatures = function (arr, amount) {
   var list = [];
   for (var i = 0; i < amount; i++) {
-    var featuresCount = getRandomValue(1, arr.length);
-    var featuresRandom = featuresList.sort(function () {
+    var count = getRandomValue(1, arr.length);
+    var arrRandom = arr.sort(function () {
       return 0.5 - Math.random()
     });
-    for (var j = 0; j < featuresCount; j++) {
-      list[i] = list[i] + ',' + featuresRandom[j];
+    var arrNew = [];
+    for (var j = 0; j < count; j++) {
+      arrNew[j] = arrRandom[j];
     }
+    list[i] = arrNew.join(', ');
   }
   return list;
 };
@@ -131,7 +133,7 @@ var makeFragment = function (arr, templates) {
 };
 
 var makeFeatureFragment = function (str) {
-  var arr = str.split(',');
+  var arr = str.split(', ');
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < arr.length; i++) {
     var item =document.createElement('li');
