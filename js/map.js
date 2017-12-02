@@ -134,8 +134,12 @@ var makeFeatureFragment = function (str) {
   var arr = str.split(',');
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < arr.length; i++) {
-    fragment.appendChild();
+    var item =document.createElement('li');
+    item.classList.add('feature');
+    item.classList.add('feature--' + arr[i]);
+    fragment.appendChild(item);
   }
+  return fragment;
 };
 
 var mapPins = document.querySelector('.map__pins');
@@ -153,7 +157,6 @@ mapPins.appendChild(makeFragment(hotels, renderMapPin));
 var mapBlock = document.querySelector('.map');
 var mapFilters = document.querySelector('.map__filters-container');
 var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
-var featureItem = mapCardTemplate.querySelector('.popup__features');
 var renderMapCard = function (hotel) {
   var mapCard = mapCardTemplate.cloneNode(true);
   var featureList = mapCard.querySelector('.popup__features');
@@ -169,7 +172,7 @@ var renderMapCard = function (hotel) {
     + hotel.offer.guests + ' гостей';
   mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + hotel.offer.checkin +
     ', выезд до ' + hotel.offer.checkout;
-  featureList.appendChild()
+  featureList.appendChild(makeFeatureFragment(hotel.offer.features));
   mapCard.querySelector('p:last-of-type').textContent = hotel.offer.description;
   return mapCard;
 };
