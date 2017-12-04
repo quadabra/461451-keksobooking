@@ -186,6 +186,7 @@ var myInputsSwitch = function (arr, attr) {
   }
 };
 
+
 myInputsSwitch(myInputs, inputDisable);
 
 var onPinSet = function () {
@@ -194,9 +195,17 @@ var onPinSet = function () {
   mapBlock.insertBefore(makeFragment(hotels, renderMapCard), mapFilters);
   mapPins.appendChild(makeFragment(hotels, renderMapPin));
   myInputsSwitch(myInputs, inputEnable);
+
+  var popupCards = mapBlock.querySelectorAll('.map__card');
+  var classRemoveArray = function (arr, cls) {
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].classList.add(cls);
+    }
+  };
+  classRemoveArray(popupCards, 'hidden');
+  myPin.removeEventListener('mouseup', onPinSet);
 };
 
-myPin.addEventListener('mouseup', function () {
-  onPinSet();
-  myPin.removeEventListener('mouseup', onPinSet);
-});
+myPin.addEventListener('mouseup', onPinSet);
+
+
