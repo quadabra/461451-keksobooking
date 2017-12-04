@@ -200,5 +200,5 @@ var onPinSet = function () {
 
 myPin.addEventListener('mouseup', function () {
   onPinSet();
-  removeEventListener('mouseup', onPinSet);
+  myPin.removeEventListener('mouseup', onPinSet);
 });
