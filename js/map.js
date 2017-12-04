@@ -1,7 +1,5 @@
 'use strict';
 
-document.querySelector('.map').classList.remove('map--faded');
-
 var generateObjects = 8;
 
 var getRandomValue = function (min, max) {
@@ -154,7 +152,7 @@ var renderMapPin = function (hotel) {
   return mapPin;
 };
 
-mapPins.appendChild(makeFragment(hotels, renderMapPin));
+
 
 var mapBlock = document.querySelector('.map');
 var mapFilters = document.querySelector('.map__filters-container');
@@ -179,4 +177,28 @@ var renderMapCard = function (hotel) {
   return mapCard;
 };
 
-mapBlock.insertBefore(makeFragment(hotels, renderMapCard), mapFilters);
+var myPin = mapBlock.querySelector('.map__pin--main');
+var myForm = document.querySelector('.notice__form');
+var myInputs = document.querySelectorAll('fieldset');
+var inputDisable = true;
+var inputEnable = false;
+var myInputsSwitch = function (arr, attr) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].disabled = attr;
+  }
+};
+
+myInputsSwitch(myInputs, inputDisable);
+
+var onPinSet = function () {
+  mapBlock.classList.remove('map--faded');
+  myForm.classList.remove('notice__form--disabled');
+  mapBlock.insertBefore(makeFragment(hotels, renderMapCard), mapFilters);
+  mapPins.appendChild(makeFragment(hotels, renderMapPin));
+  myInputsSwitch(myInputs, inputEnable);
+};
+
+myPin.addEventListener('mouseup', function () {
+  onPinSet();
+  removeEventListener('mouseup', onPinSet);
+});
