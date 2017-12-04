@@ -152,8 +152,6 @@ var renderMapPin = function (hotel) {
   return mapPin;
 };
 
-
-
 var mapBlock = document.querySelector('.map');
 var mapFilters = document.querySelector('.map__filters-container');
 var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
