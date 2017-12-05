@@ -246,7 +246,9 @@ mapPins.addEventListener('click', function (evt) {
 
 mapBlock.addEventListener('click', function (evt) {
   var target = evt.target;
-  if (!target.classList.contains('popup__close')) return;
+  if (!target.classList.contains('popup__close')) {
+    return;
+  }
   target.parentNode.classList.toggle('hidden');
   for (var i = 0; i < popupCards.length; i++) {
     if (target.parentNode === popupCards[i]) {
