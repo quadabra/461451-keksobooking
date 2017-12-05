@@ -216,11 +216,11 @@ var onPinSet = function () {
 };
 myPin.addEventListener('mouseup', onPinSet);
 
-mapPins.onclick = function (evt) {
+mapPins.addEventListener('click', function (evt) {
   var target = evt.target;
   if (mapPinList.contains(target)) {
 
   }
 
 
-};
+});
