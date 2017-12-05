@@ -175,7 +175,11 @@ var renderMapCard = function (hotel) {
   return mapCard;
 };
 
+mapBlock.insertBefore(makeFragment(hotels, renderMapCard), mapFilters);
+mapPins.appendChild(makeFragment(hotels, renderMapPin));
+
 var myPin = mapBlock.querySelector('.map__pin--main');
+var mapPinList = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 var myForm = document.querySelector('.notice__form');
 var myInputs = document.querySelectorAll('fieldset');
 var inputDisable = true;
@@ -188,15 +192,50 @@ var myInputsSwitch = function (arr, attr) {
 
 myInputsSwitch(myInputs, inputDisable);
 
+var popupCards = mapBlock.querySelectorAll('.map__card');
+var classAddArray = function (arr, cls) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].classList.add(cls);
+  }
+};
+var classRemoveArray = function (arr, cls) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i].classList.remove(cls);
+  }
+};
+
+classAddArray(popupCards, 'hidden');
+classAddArray(mapPinList, 'hidden');
+
 var onPinSet = function () {
   mapBlock.classList.remove('map--faded');
   myForm.classList.remove('notice__form--disabled');
-  mapBlock.insertBefore(makeFragment(hotels, renderMapCard), mapFilters);
-  mapPins.appendChild(makeFragment(hotels, renderMapPin));
   myInputsSwitch(myInputs, inputEnable);
-};
-
-myPin.addEventListener('mouseup', function () {
-  onPinSet();
+  classRemoveArray(mapPinList, 'hidden');
   myPin.removeEventListener('mouseup', onPinSet);
+};
+myPin.addEventListener('mouseup', onPinSet);
+
+mapPins.addEventListener('click', function (evt) {
+  var target = evt.target;
+  while (target != mapPins) {
+    if (target.className === 'map__pin') {
+      target.classList.add('map__pin--active');
+      for (var i = 0; i < mapPinList.length; i++) {
+        if (mapPinList[i].className === 'map__pin map__pin--active') {
+          popupCards[i].classList.remove('hidden');
+        }
+      }
+      return;
+    } if (target.className === 'map__pin map__pin--active') {
+      target.classList.remove('map__pin--active');
+      for (var j = 0; j < mapPinList.length; j++) {
+        if (mapPinList[j].className === 'map__pin') {
+          popupCards[j].classList.add('hidden');
+        }
+      }
+    }
+    target = target.parentNode;
+  }
+
 });
