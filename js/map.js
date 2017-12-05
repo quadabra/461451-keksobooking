@@ -224,6 +224,10 @@ mapPins.addEventListener('click', function (evt) {
       for (var i = 0; i < mapPinList.length; i++) {
         if (mapPinList[i].className === 'map__pin map__pin--active') {
           popupCards[i].classList.remove('hidden');
+          if (mapPinList[i] !== target) {
+            mapPinList[i].classList.remove('map__pin--active');
+            popupCards[i].classList.add('hidden');
+          }
         }
       }
       return;
@@ -237,5 +241,17 @@ mapPins.addEventListener('click', function (evt) {
     }
     target = target.parentNode;
   }
+});
 
+var popUpClose = mapBlock.querySelectorAll('.popup__close');
+
+mapBlock.addEventListener('click', function (evt) {
+  var target = evt.target;
+  if (!target.classList.contains('popup__close')) return;
+  target.parentNode.classList.toggle('hidden');
+  for (var i = 0; i < popupCards.length; i++) {
+    if (target.parentNode === popupCards[i]) {
+      mapPinList[i].classList.remove('map__pin--active');
+    }
+  }
 });
