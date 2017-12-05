@@ -260,11 +260,11 @@ mapBlock.addEventListener('click', function (evt) {
 var ESC_KEY = 27;
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEY) {
-   for (var i = 0; i < popupCards.length; i++) {
-     if (!popupCards[i].classList.contains('hidden')) {
-       popupCards[i].classList.add('hidden');
-       mapPinList[i].classList.remove('map__pin--active');
-     }
-   }
+    for (var i = 0; i < popupCards.length; i++) {
+      if (!popupCards[i].classList.contains('hidden')) {
+        popupCards[i].classList.add('hidden');
+        mapPinList[i].classList.remove('map__pin--active');
+      }
+    }
   }
 });
