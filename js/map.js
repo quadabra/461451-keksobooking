@@ -218,9 +218,13 @@ myPin.addEventListener('mouseup', onPinSet);
 
 mapPins.addEventListener('click', function (evt) {
   var target = evt.target;
-  if (mapPinList.contains(target)) {
-
+  while (target !== mapPins) {
+    if (target.className === 'map__pin') {
+      target.classList.add('map__pin--active');
+      return;
+    } if (target.className === 'map__pin map__pin--active') {
+      target.classList.remove('map__pin--active');
+    }
+    target = target.parentNode;
   }
-
-
 });
