@@ -218,13 +218,24 @@ myPin.addEventListener('mouseup', onPinSet);
 
 mapPins.addEventListener('click', function (evt) {
   var target = evt.target;
-  while (target !== mapPins) {
+  while (target != mapPins) {
     if (target.className === 'map__pin') {
       target.classList.add('map__pin--active');
+      for (var i = 0; i < mapPinList.length; i++) {
+        if (mapPinList[i].className === 'map__pin map__pin--active') {
+          popupCards[i].classList.remove('hidden');
+        }
+      }
       return;
     } if (target.className === 'map__pin map__pin--active') {
       target.classList.remove('map__pin--active');
+      for (var j = 0; j < mapPinList.length; j++) {
+        if (mapPinList[j].className === 'map__pin') {
+          popupCards[j].classList.add('hidden');
+        }
+      }
     }
     target = target.parentNode;
   }
+
 });
