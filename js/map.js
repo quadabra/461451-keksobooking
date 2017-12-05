@@ -218,7 +218,7 @@ myPin.addEventListener('mouseup', onPinSet);
 
 mapPins.addEventListener('click', function (evt) {
   var target = evt.target;
-  while (target != mapPins) {
+  while (target !== mapPins) {
     if (target.className === 'map__pin') {
       target.classList.add('map__pin--active');
       for (var i = 0; i < mapPinList.length; i++) {
@@ -231,7 +231,8 @@ mapPins.addEventListener('click', function (evt) {
         }
       }
       return;
-    } if (target.className === 'map__pin map__pin--active') {
+    }
+    if (target.className === 'map__pin map__pin--active') {
       target.classList.remove('map__pin--active');
       for (var j = 0; j < mapPinList.length; j++) {
         if (mapPinList[j].className === 'map__pin') {
@@ -242,8 +243,6 @@ mapPins.addEventListener('click', function (evt) {
     target = target.parentNode;
   }
 });
-
-var popUpClose = mapBlock.querySelectorAll('.popup__close');
 
 mapBlock.addEventListener('click', function (evt) {
   var target = evt.target;
