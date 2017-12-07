@@ -268,3 +268,60 @@ document.addEventListener('keydown', function (evt) {
     }
   }
 });
+
+
+var inputTitle = myForm.querySelector('#title');
+var inputAddress = myForm.querySelector('#address');
+var inputType = myForm.querySelector('#type');
+var inputPrice = myForm.querySelector('#price');
+var inputCheckIn = myForm.querySelector('#timein');
+var inputCheckOut = myForm.querySelector('#timeout');
+var roomsNumber = myForm.querySelector('#room_number');
+var guestCapacity = myForm.querySelector('#capacity');
+var formSubmit = myForm.querySelector('.form__submit');
+
+inputTitle.addEventListener('input', function (evt) {
+  var target = evt.target;
+  target.required = true;
+  if (target.value.length < 30 || target.value.length > 100) {
+    target.setCustomValidity('От 30 до 100 символов')
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+inputAddress.setAttribute('readonly', 'readonly');
+inputAddress.required = true;
+var minPrice = 5000;
+var maxPrice = 10000000;
+inputPrice.setAttribute('min', minPrice);
+inputPrice.setAttribute('max', maxPrice);
+
+inputType.addEventListener('change', function (evt) {
+  var target = evt.target;
+  switch (target.selectedIndex) {
+    case 0:
+      minPrice = 1000;
+      break;
+    case 1:
+      minPrice = 0;
+      break;
+    case 2:
+      minPrice = 5000;
+      break;
+    case 3:
+      minPrice = 10000;
+      break;
+    default:
+      minPrice = 5000;
+  }
+  inputPrice.setAttribute('min', minPrice);
+});
+
+inputPrice.addEventListener('invalid', function (evt) {
+  var target = evt.target;
+  if (target.value < minPrice) {
+    target.setCustomValidity('Минимальное значение ' + minPrice);
+  } else {target.setCustomValidity('')
+  }
+});
