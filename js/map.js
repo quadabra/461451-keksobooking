@@ -279,23 +279,22 @@ var inputCheckOut = myForm.querySelector('#timeout');
 var roomsNumber = myForm.querySelector('#room_number');
 var guestCapacity = myForm.querySelector('#capacity');
 var formSubmit = myForm.querySelector('.form__submit');
-
-inputTitle.addEventListener('input', function (evt) {
-  var target = evt.target;
-  target.required = true;
-  if (target.value.length < 30 || target.value.length > 100) {
-    target.setCustomValidity('От 30 до 100 символов')
-  } else {
-    target.setCustomValidity('');
-  }
-});
-
+inputTitle.required = true;
 inputAddress.setAttribute('readonly', 'readonly');
 inputAddress.required = true;
 var minPrice = 5000;
 var maxPrice = 10000000;
 inputPrice.setAttribute('min', minPrice);
 inputPrice.setAttribute('max', maxPrice);
+
+inputTitle.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 30 || target.value.length > 100) {
+    target.setCustomValidity('От 30 до 100 символов')
+  } else {
+    target.setCustomValidity('');
+  }
+});
 
 inputType.addEventListener('change', function (evt) {
   var target = evt.target;
