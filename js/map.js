@@ -291,7 +291,7 @@ inputPrice.required = true;
 inputTitle.addEventListener('input', function (evt) {
   var target = evt.target;
   if (target.value.length < 30 || target.value.length > 100) {
-    target.setCustomValidity('От 30 до 100 символов')
+    target.setCustomValidity('От 30 до 100 символов');
   } else {
     target.setCustomValidity('');
   }
@@ -323,7 +323,7 @@ inputPrice.addEventListener('invalid', function (evt) {
   if (target.value < minPrice) {
     target.setCustomValidity('Минимальное значение ' + minPrice);
   } else {
-    target.setCustomValidity('')
+    target.setCustomValidity('');
   }
 });
 
