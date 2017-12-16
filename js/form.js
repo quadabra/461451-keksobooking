@@ -15,7 +15,13 @@
   inputTitle.required = true;
   inputAddress.setAttribute('readonly', 'readonly');
   inputAddress.required = true;
-  var minPrice = 5000;
+  var priceList = {
+    '0' : '1000',
+    '1' : '0',
+    '2' : '5000',
+    '3' : '10000'
+  };
+  var minPrice = priceList[inputType.selectedIndex];
   var maxPrice = 10000000;
   inputPrice.setAttribute('min', minPrice);
   inputPrice.setAttribute('max', maxPrice);
@@ -32,23 +38,7 @@
 
   inputType.addEventListener('change', function (evt) {
     var target = evt.target;
-    switch (target.selectedIndex) {
-      case 0:
-        minPrice = 1000;
-        break;
-      case 1:
-        minPrice = 0;
-        break;
-      case 2:
-        minPrice = 5000;
-        break;
-      case 3:
-        minPrice = 10000;
-        break;
-      default:
-        minPrice = 5000;
-    }
-    inputPrice.setAttribute('min', minPrice);
+    inputPrice.setAttribute('min', priceList[target.selectedIndex] || minPrice);
   });
 
   inputPrice.addEventListener('invalid', function (evt) {

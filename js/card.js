@@ -34,4 +34,5 @@
   };
 
   mapBlock.insertBefore(window.make.fragment(window.generatedHotels, renderMapCard), mapFilters);
+  window.popupCards = mapBlock.querySelectorAll('.map__card');
 })();

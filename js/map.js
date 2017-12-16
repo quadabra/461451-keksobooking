@@ -7,7 +7,6 @@
   var myPin = mapBlock.querySelector('.map__pin--main');
   var myForm = document.querySelector('.notice__form');
   var myInputs = document.querySelectorAll('fieldset');
-  var popupCards = mapBlock.querySelectorAll('.map__card');
   var ESC_KEY = 27;
   var inputDisable = true;
   var inputEnable = false;
