@@ -12,13 +12,21 @@
   var inputDisable = true;
   var inputEnable = false;
 
+      var makeFragment = function (arr, templates) {
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < arr.length; i++) {
+          fragment.appendChild(templates(arr[i]));
+        }
+        return fragment;
+      };
+
   var renderMapPins = function () {
-    mapPins.appendChild(window.make.fragment(window.generatedHotels, window.pins.render));
+    mapPins.appendChild(makeFragment(window.generatedHotels, window.pins.render));
     window.mapPinList = document.querySelectorAll('.map__pin:not(.map__pin--main)');
   };
 
   var renderMapCards = function () {
-    mapBlock.insertBefore(window.make.fragment(window.generatedHotels, window.cards.render), mapFilters);
+    mapBlock.insertBefore(makeFragment(window.generatedHotels, window.cards.render), mapFilters);
     window.popupCards = mapBlock.querySelectorAll('.map__card');
   };
 

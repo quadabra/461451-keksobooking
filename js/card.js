@@ -10,6 +10,17 @@ window.cards = (function () {
 
   var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
 
+  var makeFeature = function (str) {
+    var arr = str.split(', ');
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < arr.length; i++) {
+      var item = document.createElement('li');
+      item.classList.add('feature');
+      item.classList.add('feature--' + arr[i]);
+      fragment.appendChild(item);
+    }
+    return fragment;
+  };
   return {
     render: function (hotel) {
       var mapCard = mapCardTemplate.cloneNode(true);
@@ -26,7 +37,7 @@ window.cards = (function () {
         + hotel.offer.guests + ' гостей';
       mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + hotel.offer.checkin +
         ', выезд до ' + hotel.offer.checkout;
-      featureList.appendChild(window.make.feature(hotel.offer.features));
+      featureList.appendChild(makeFeature(hotel.offer.features));
       mapCard.querySelector('p:last-of-type').textContent = hotel.offer.description;
       mapCard.classList.add('hidden');
       return mapCard;

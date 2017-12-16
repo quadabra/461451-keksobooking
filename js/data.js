@@ -113,26 +113,3 @@ window.generatedHotels = (function () {
   return generateHotels(generateObjects);
 
 })();
-
-window.make = (function () {
-  return {
-    fragment: function (arr, templates) {
-      var fragment = document.createDocumentFragment();
-      for (var i = 0; i < arr.length; i++) {
-        fragment.appendChild(templates(arr[i]));
-      }
-      return fragment;
-    },
-    feature: function (str) {
-      var arr = str.split(', ');
-      var fragment = document.createDocumentFragment();
-      for (var i = 0; i < arr.length; i++) {
-        var item = document.createElement('li');
-        item.classList.add('feature');
-        item.classList.add('feature--' + arr[i]);
-        fragment.appendChild(item);
-      }
-      return fragment;
-    }
-  };
-})();
