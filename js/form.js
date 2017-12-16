@@ -16,10 +16,10 @@
   inputAddress.setAttribute('readonly', 'readonly');
   inputAddress.required = true;
   var priceList = {
-    '0' : '1000',
-    '1' : '0',
-    '2' : '5000',
-    '3' : '10000'
+    '0': '1000',
+    '1': '0',
+    '2': '5000',
+    '3': '10000'
   };
   var minPrice = priceList[inputType.selectedIndex];
   var maxPrice = 10000000;

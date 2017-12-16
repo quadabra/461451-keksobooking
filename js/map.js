@@ -32,12 +32,12 @@
         while (target !== mapPins) {
           if (target.className === 'map__pin') {
             target.classList.add('map__pin--active');
-            for (var i = 0; i < mapPinList.length; i++) {
-              if (mapPinList[i].className === 'map__pin map__pin--active') {
-                popupCards[i].classList.remove('hidden')
-                if (mapPinList[i] !== target) {
-                  mapPinList[i].classList.remove('map__pin--active');
-                  popupCards[i].classList.add('hidden');
+            for (var i = 0; i < window.mapPinList.length; i++) {
+              if (window.mapPinList[i].className === 'map__pin map__pin--active') {
+                window.popupCards[i].classList.remove('hidden');
+                if (window.mapPinList[i] !== target) {
+                  window.mapPinList[i].classList.remove('map__pin--active');
+                  window.popupCards[i].classList.add('hidden');
                 }
               }
             }
@@ -45,9 +45,9 @@
           }
           if (target.className === 'map__pin map__pin--active') {
             target.classList.remove('map__pin--active');
-            for (var j = 0; j < mapPinList.length; j++) {
-              if (mapPinList[j].className === 'map__pin') {
-                popupCards[j].classList.add('hidden');
+            for (var j = 0; j < window.mapPinList.length; j++) {
+              if (window.mapPinList[j].className === 'map__pin') {
+                window.popupCards[j].classList.add('hidden');
               }
             }
           }
@@ -61,24 +61,24 @@
           return;
         }
         target.parentNode.classList.toggle('hidden');
-        for (var i = 0; i < popupCards.length; i++) {
-          if (target.parentNode === popupCards[i]) {
-            mapPinList[i].classList.remove('map__pin--active');
+        for (var i = 0; i < window.popupCards.length; i++) {
+          if (target.parentNode === window.popupCards[i]) {
+            window.mapPinList[i].classList.remove('map__pin--active');
           }
         }
       },
 
       popupEsc: function (evt) {
         if (evt.keyCode === ESC_KEY) {
-          for (var i = 0; i < popupCards.length; i++) {
-            if (!popupCards[i].classList.contains('hidden')) {
-              popupCards[i].classList.add('hidden');
-              mapPinList[i].classList.remove('map__pin--active');
+          for (var i = 0; i < window.popupCards.length; i++) {
+            if (!window.popupCards[i].classList.contains('hidden')) {
+              window.popupCards[i].classList.add('hidden');
+              window.mapPinList[i].classList.remove('map__pin--active');
             }
           }
         }
       }
-    }
+    };
   })();
 
   var onPinMove = function (evt) {

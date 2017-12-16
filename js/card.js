@@ -3,9 +3,9 @@
 (function () {
 
   var typeReplaceEqual = {
-    'flat' : 'Квартира',
-    'house' : 'Дом',
-    'bungalo' : 'Бунгало'
+    'flat': 'Квартира',
+    'house': 'Дом',
+    'bungalo': 'Бунгало'
   };
 
   var mapBlock = document.querySelector('.map');
