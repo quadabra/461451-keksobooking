@@ -27,7 +27,7 @@
 
   window.mapEvt = (function () {
     return {
-      pinSwitch : function (evt) {
+      pinSwitch: function (evt) {
         var target = evt.target;
         while (target !== mapPins) {
           if (target.className === 'map__pin') {
@@ -54,7 +54,8 @@
           target = target.parentNode;
         }
       },
-      popupClose : function (evt) {
+
+      popupClose: function (evt) {
         var target = evt.target;
         if (!target.classList.contains('popup__close')) {
           return;
@@ -66,8 +67,8 @@
           }
         }
       },
-      popupEsc : function (evt) {
 
+      popupEsc: function (evt) {
         if (evt.keyCode === ESC_KEY) {
           for (var i = 0; i < popupCards.length; i++) {
             if (!popupCards[i].classList.contains('hidden')) {
@@ -80,14 +81,66 @@
     }
   })();
 
+  var onPinMove = function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var pinSizeShift = {
+      x: 20,
+      y: 66
+    };
+
+    var moveBox = {
+      top: 100,
+      bottom: 500
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      myPin.style.top = (myPin.offsetTop - shift.y) + 'px';
+      myPin.style.left = (myPin.offsetLeft - shift.x) + 'px';
+      if (myPin.offsetTop - shift.y < moveBox.top + pinSizeShift.y) {
+        myPin.style.top = (moveBox.top + pinSizeShift.y) + 'px';
+      }
+      if (myPin.offsetTop - shift.y > moveBox.bottom + pinSizeShift.y) {
+        myPin.style.top = (moveBox.bottom + pinSizeShift.y) + 'px';
+      }
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  };
+
+  myPin.addEventListener('mousedown', onPinMove);
+
   var onPinSet = function () {
     renderMapPins();
     mapBlock.classList.remove('map--faded');
     myForm.classList.remove('notice__form--disabled');
     myInputsSwitch(myInputs, inputEnable);
-    mapPins.addEventListener('click', function(evt) {
-      window.mapEvt.pinSwitch(evt);
-    });
+    mapPins.addEventListener('click', window.mapEvt.pinSwitch);
     mapBlock.addEventListener('click', window.mapEvt.popupClose);
     document.addEventListener('keydown', window.mapEvt.popupEsc);
     myPin.removeEventListener('mouseup', onPinSet);
