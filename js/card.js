@@ -29,7 +29,7 @@
       ', выезд до ' + hotel.offer.checkout;
     featureList.appendChild(window.make.feature(hotel.offer.features));
     mapCard.querySelector('p:last-of-type').textContent = hotel.offer.description;
-    mapCard.hidden = true;
+    mapCard.classList.add('hidden');
     return mapCard;
   };
 
