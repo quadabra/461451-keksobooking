@@ -111,6 +111,9 @@ window.form = (function () {
     enable: function () {
       myInputsSwitch(myInputs, inputEnable);
       myForm.classList.remove('notice__form--disabled');
+    },
+    getAddress: function (x, y) {
+      inputAddress.value = 'x: ' + x + ' y: ' +y;
     }
   };
 
