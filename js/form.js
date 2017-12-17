@@ -113,7 +113,7 @@ window.form = (function () {
       myForm.classList.remove('notice__form--disabled');
     },
     getAddress: function (x, y) {
-      inputAddress.value = 'x: ' + x + ' y: ' +y;
+      inputAddress.value = 'x: ' + x + ' y: ' + y;
     }
   };
 

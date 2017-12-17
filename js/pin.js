@@ -68,7 +68,7 @@ window.pins = (function () {
           myPin.style.top = (moveBox.bottom - pinSizeShift.y) + 'px';
         }
 
-        window.form.getAddress((myPin.offsetLeft - shift.x + pinSizeShift.x),(myPin.offsetTop - shift.y + pinSizeShift.y));
+        window.form.getAddress((myPin.offsetLeft - shift.x + pinSizeShift.x), (myPin.offsetTop - shift.y + pinSizeShift.y));
 
       };
 
