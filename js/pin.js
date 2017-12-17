@@ -67,8 +67,11 @@ window.pins = (function () {
         if (myPin.offsetTop - shift.y > moveBox.bottom - pinSizeShift.y) {
           myPin.style.top = (moveBox.bottom - pinSizeShift.y) + 'px';
         }
+
+        window.form.getAddress((myPin.offsetLeft - shift.x + pinSizeShift.x),(myPin.offsetTop - shift.y + pinSizeShift.y));
+
       };
-      window.form.getAddress((myPin.offsetLeft - shift.x + pinSizeShift.x),(myPin.offsetTop - shift.y + pinSizeShift.y));
+
       var onMouseUp = function (upEvt) {
         upEvt.preventDefault();
 
