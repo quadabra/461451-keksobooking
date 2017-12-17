@@ -22,7 +22,7 @@ window.pins = (function () {
         } else if (target.className === 'map__pin map__pin--active') {
           target.classList.remove('map__pin--active');
         }
-        if (!target.classList.contains('map__pin')) {
+        if (target.className !== 'map__pin') {
           active.classList.remove('map__pin--active');
         }
         target = target.parentNode;

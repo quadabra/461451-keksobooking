@@ -1,6 +1,6 @@
 'use strict';
 
-(function () {
+window.form = (function () {
 
   var myForm = document.querySelector('.notice__form');
   var inputTitle = myForm.querySelector('#title');
@@ -12,6 +12,19 @@
   var roomsNumber = myForm.querySelector('#room_number');
   var guestCapacity = myForm.querySelector('#capacity');
   var formSubmit = myForm.querySelector('.form__submit');
+  var myInputs = document.querySelectorAll('fieldset');
+
+  var myInputsSwitch = function (arr, attr) {
+    for (var i = 0; i < arr.length; i++) {
+      arr[i].disabled = attr;
+    }
+  };
+
+  var inputDisable = true;
+  var inputEnable = false;
+
+  myInputsSwitch(myInputs, inputDisable);
+
   inputTitle.required = true;
   inputAddress.setAttribute('readonly', 'readonly');
   inputAddress.required = true;
@@ -93,5 +106,12 @@
 
   formSubmit.addEventListener('click', function () {
   });
+
+  return {
+    enable: function () {
+      myInputsSwitch(myInputs, inputEnable);
+      myForm.classList.remove('notice__form--disabled');
+    }
+  };
 
 })();
