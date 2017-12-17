@@ -22,12 +22,10 @@
 
   var renderMapPins = function () {
     mapPins.appendChild(makeFragment(window.generatedHotels, window.pins.render));
-    window.mapPinList = document.querySelectorAll('.map__pin:not(.map__pin--main)');
   };
 
   var renderMapCards = function () {
     mapBlock.insertBefore(makeFragment(window.generatedHotels, window.cards.render), mapFilters);
-    window.popupCards = mapBlock.querySelectorAll('.map__card');
   };
 
   var myInputsSwitch = function (arr, attr) {
@@ -40,14 +38,23 @@
 
   myPin.addEventListener('mousedown', window.pins.move);
 
+  var onMapClick = function (evt) {
+    var target = evt.target;
+    if (target.classList.contains('popup__close')) {
+      window.cards.popupClose(evt);
+    } else {
+      window.pins.pinSwitch(evt);
+      window.cards.popupSwitch();
+    }
+  };
+
   var onPinSet = function () {
     renderMapPins();
     renderMapCards();
     mapBlock.classList.remove('map--faded');
     myForm.classList.remove('notice__form--disabled');
     myInputsSwitch(myInputs, inputEnable);
-    mapPins.addEventListener('click', window.pins.pinSwitch);
-    mapBlock.addEventListener('click', window.cards.popupClose);
+    mapBlock.addEventListener('click', onMapClick);
     document.addEventListener('keydown', window.cards.popupEsc);
     myPin.removeEventListener('mouseup', onPinSet);
   };

@@ -14,27 +14,16 @@ window.pins = (function () {
     },
     pinSwitch: function (evt) {
       var target = evt.target;
+      var active = mapPins.querySelector('.map__pin--active') || mapPins.querySelector('.map__pin');
       while (target !== mapPins) {
-        if (target.className === 'map__pin') {
+        if (target.className === 'map__pin' && target !== active) {
           target.classList.add('map__pin--active');
-          for (var i = 0; i < window.mapPinList.length; i++) {
-            if (window.mapPinList[i].className === 'map__pin map__pin--active') {
-              window.popupCards[i].classList.remove('hidden');
-              if (window.mapPinList[i] !== target) {
-                window.mapPinList[i].classList.remove('map__pin--active');
-                window.popupCards[i].classList.add('hidden');
-              }
-            }
-          }
-          return;
-        }
-        if (target.className === 'map__pin map__pin--active') {
+          active.classList.remove('map__pin--active');
+        } else if (target.className === 'map__pin map__pin--active') {
           target.classList.remove('map__pin--active');
-          for (var j = 0; j < window.mapPinList.length; j++) {
-            if (window.mapPinList[j].className === 'map__pin') {
-              window.popupCards[j].classList.add('hidden');
-            }
-          }
+        }
+        if (!target.classList.contains('map__pin')) {
+          active.classList.remove('map__pin--active');
         }
         target = target.parentNode;
       }
