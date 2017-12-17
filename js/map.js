@@ -23,8 +23,6 @@
     mapBlock.insertBefore(makeFragment(window.generatedHotels, window.cards.render), mapFilters);
   };
 
-  myPin.addEventListener('mousedown', window.pins.move);
-
   var onMapClick = function (evt) {
     var target = evt.target;
     if (target.classList.contains('popup__close')) {
@@ -45,6 +43,7 @@
     myPin.removeEventListener('mouseup', onPinSet);
   };
 
+  myPin.addEventListener('mousedown', window.pins.move);
   myPin.addEventListener('mouseup', onPinSet);
 
 })();
