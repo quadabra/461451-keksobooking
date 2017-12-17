@@ -12,13 +12,13 @@
   var inputDisable = true;
   var inputEnable = false;
 
-      var makeFragment = function (arr, templates) {
-        var fragment = document.createDocumentFragment();
-        for (var i = 0; i < arr.length; i++) {
-          fragment.appendChild(templates(arr[i]));
-        }
-        return fragment;
-      };
+  var makeFragment = function (arr, templates) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < arr.length; i++) {
+      fragment.appendChild(templates(arr[i]));
+    }
+    return fragment;
+  };
 
   var renderMapPins = function () {
     mapPins.appendChild(makeFragment(window.generatedHotels, window.pins.render));

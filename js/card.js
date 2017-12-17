@@ -57,8 +57,8 @@ window.cards = (function () {
     },
 
     popupClose: function (evt) {
-     evt.target.parentNode.classList.add('hidden');
-     document.querySelector('.map__pin--active').classList.remove('map__pin--active');
+      evt.target.parentNode.classList.add('hidden');
+      document.querySelector('.map__pin--active').classList.remove('map__pin--active');
     },
 
     popupEsc: function (evt) {
