@@ -61,12 +61,15 @@ window.pins = (function () {
 
         myPin.style.top = (myPin.offsetTop - shift.y) + 'px';
         myPin.style.left = (myPin.offsetLeft - shift.x) + 'px';
-        if (myPin.offsetTop - shift.y < moveBox.top + pinSizeShift.y) {
-          myPin.style.top = (moveBox.top + pinSizeShift.y) + 'px';
+        if (myPin.offsetTop - shift.y < moveBox.top - pinSizeShift.y) {
+          myPin.style.top = (moveBox.top - pinSizeShift.y) + 'px';
         }
-        if (myPin.offsetTop - shift.y > moveBox.bottom + pinSizeShift.y) {
-          myPin.style.top = (moveBox.bottom + pinSizeShift.y) + 'px';
+        if (myPin.offsetTop - shift.y > moveBox.bottom - pinSizeShift.y) {
+          myPin.style.top = (moveBox.bottom - pinSizeShift.y) + 'px';
         }
+
+        window.form.getAddress((myPin.offsetLeft - shift.x + pinSizeShift.x), (myPin.offsetTop - shift.y + pinSizeShift.y));
+
       };
 
       var onMouseUp = function (upEvt) {
