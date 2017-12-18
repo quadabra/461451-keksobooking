@@ -14,6 +14,19 @@ window.form = (function () {
   var formSubmit = myForm.querySelector('.form__submit');
   var myInputs = document.querySelectorAll('fieldset');
 
+  var timeIn = ['12:00', '13:00', '14:00'];
+  var timeOut = ['12:00', '13:00', '14:00'];
+  var apartmentTypes = ['bungalo', 'flat', 'house', 'palace'];
+  var apartmentPrices = ['0', '1000', '5000', '10000'];
+
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
+
+  var syncValueWithMin = function (element, value) {
+    element.min = value;
+  };
+
   var myInputsSwitch = function (arr, attr) {
     for (var i = 0; i < arr.length; i++) {
       arr[i].disabled = attr;
@@ -49,26 +62,25 @@ window.form = (function () {
     }
   });
 
-  inputType.addEventListener('change', function (evt) {
-    var target = evt.target;
-    inputPrice.setAttribute('min', priceList[target.selectedIndex] || minPrice);
+  inputType.addEventListener('change', function () {
+    window.synchronizeFields(inputType, inputPrice, apartmentTypes, apartmentPrices, syncValueWithMin);
   });
 
   inputPrice.addEventListener('invalid', function (evt) {
     var target = evt.target;
-    if (target.value < minPrice) {
-      target.setCustomValidity('Минимальное значение ' + minPrice);
+    if (target.value < priceList[inputType.selectedIndex]) {
+      target.setCustomValidity('Минимальное значение ' + priceList[inputType.selectedIndex]);
     } else {
       target.setCustomValidity('');
     }
   });
 
-  inputCheckIn.addEventListener('change', function (evt) {
-    inputCheckOut.selectedIndex = evt.target.selectedIndex;
+  inputCheckIn.addEventListener('change', function () {
+    window.synchronizeFields(inputCheckIn, inputCheckOut, timeIn, timeOut, syncValues);
   });
 
-  inputCheckOut.addEventListener('change', function (evt) {
-    inputCheckIn.selectedIndex = evt.target.selectedIndex;
+  inputCheckOut.addEventListener('change', function () {
+    window.synchronizeFields(inputCheckOut, inputCheckIn, timeOut, timeIn, syncValues);
   });
 
   var roomsValidate = function () {
