@@ -13,6 +13,7 @@ window.form = (function () {
   var guestCapacity = myForm.querySelector('#capacity');
   var formSubmit = myForm.querySelector('.form__submit');
   var myInputs = document.querySelectorAll('fieldset');
+  var formReset = myForm.querySelector('.form__reset');
 
   var timeIn = ['12:00', '13:00', '14:00'];
   var timeOut = ['12:00', '13:00', '14:00'];
@@ -102,6 +103,7 @@ window.form = (function () {
 
   var onSave = function () {
     formSubmit.style = 'background-color: green;';
+    formSubmit.textContent = 'Отправлено'
   };
 
   var onError = function (message) {
@@ -113,6 +115,11 @@ window.form = (function () {
     var data = new FormData(myForm);
     evt.preventDefault();
     window.backend.save(data, onSave, onError);
+  });
+
+  formReset.addEventListener('click', function () {
+    formSubmit.style = 'none';
+    formSubmit.textContent = 'Опубликовать';
   });
 
   return {
