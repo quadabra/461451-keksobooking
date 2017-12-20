@@ -32,7 +32,7 @@
     errorImage.width = 360;
     errorImage.height = 240;
     errorImage.style = 'display: block; margin: 10px auto; border: 1px solid white;';
-    errorText.textContent = 'Поломалося, ' + errorMessage;
+    errorText.textContent = 'Насяльника!!!11, ' + errorMessage;
     errorText.style = 'color: white; font-size: 18px;';
     fragment.style = 'width: 400px; text-align: center; z-index: 10; margin: 0; padding: 0; margin-right: auto; ' +
       'background-color : black; top: 30%; left: 50%; transform: translateX(-50%);';
