@@ -8,5 +8,5 @@ window.backend = (function () {
     save: function () {
 
     }
-  }
+  };
 })();
