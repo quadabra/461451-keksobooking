@@ -67,12 +67,28 @@ window.form = (function () {
   inputPrice.setAttribute('max', maxPrice);
   inputPrice.required = true;
 
+  inputPrice.addEventListener('invalid', function (evt) {
+    if (!evt.target.value) {
+      evt.target.setCustomValidity('Установите цену');
+    } else {
+      evt.target.setCustomValidity('');
+    }
+  });
+
   inputTitle.addEventListener('input', function (evt) {
     var target = evt.target;
     if (target.value.length < 30 || target.value.length > 100) {
       target.setCustomValidity('От 30 до 100 символов');
     } else {
       target.setCustomValidity('');
+    }
+  });
+
+  inputAddress.addEventListener('invalid', function (evt) {
+    if (!evt.target.value) {
+      evt.target.setCustomValidity('Установите пин');
+    } else {
+      evt.target.setCustomValidity('');
     }
   });
 
@@ -112,9 +128,11 @@ window.form = (function () {
   };
 
   formSubmit.addEventListener('click', function (evt) {
-    var data = new FormData(myForm);
-    evt.preventDefault();
-    window.backend.save(data, onSave, onError);
+    if (inputAddress.validity.valid && inputTitle.validity.valid && inputPrice.validity.valid) {
+      var data = new FormData(myForm);
+      evt.preventDefault();
+      window.backend.save(data, onSave, onError);
+    }
   });
 
   formReset.addEventListener('click', function () {
