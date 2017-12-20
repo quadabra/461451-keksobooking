@@ -103,7 +103,7 @@ window.form = (function () {
 
   var onSave = function () {
     formSubmit.style = 'background-color: green;';
-    formSubmit.textContent = 'Отправлено'
+    formSubmit.textContent = 'Отправлено';
   };
 
   var onError = function (message) {
