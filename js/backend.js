@@ -11,17 +11,17 @@ window.backend = (function () {
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
-        onError(xhr.response);
+        onError('произошла ошибка соединения ' + xhr.status);
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения' + xhr.status);
+      onError('Произошла ошибка соединения ' + xhr.status);
     });
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 1000;
+    xhr.timeout = 5000;
 
     return xhr;
   };

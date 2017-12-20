@@ -100,7 +100,19 @@ window.form = (function () {
     window.synchronizeFields(roomsNumber, guestCapacity, rooms, guests, syncValueWithOption);
   });
 
-  formSubmit.addEventListener('click', function () {
+  var onSave = function () {
+    formSubmit.style = 'background-color: green;';
+  };
+
+  var onError = function (message) {
+    formSubmit.style = 'background-color: red;';
+    formSubmit.textContent = message;
+  };
+
+  formSubmit.addEventListener('click', function (evt) {
+    var data = new FormData(myForm);
+    evt.preventDefault();
+    window.backend.save(data, onSave, onError);
   });
 
   return {
