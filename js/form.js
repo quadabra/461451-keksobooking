@@ -13,6 +13,7 @@ window.form = (function () {
   var guestCapacity = myForm.querySelector('#capacity');
   var formSubmit = myForm.querySelector('.form__submit');
   var myInputs = document.querySelectorAll('fieldset');
+  var formReset = myForm.querySelector('.form__reset');
 
   var timeIn = ['12:00', '13:00', '14:00'];
   var timeOut = ['12:00', '13:00', '14:00'];
@@ -66,12 +67,28 @@ window.form = (function () {
   inputPrice.setAttribute('max', maxPrice);
   inputPrice.required = true;
 
+  inputPrice.addEventListener('invalid', function (evt) {
+    if (!evt.target.value) {
+      evt.target.setCustomValidity('Установите цену');
+    } else {
+      evt.target.setCustomValidity('');
+    }
+  });
+
   inputTitle.addEventListener('input', function (evt) {
     var target = evt.target;
     if (target.value.length < 30 || target.value.length > 100) {
       target.setCustomValidity('От 30 до 100 символов');
     } else {
       target.setCustomValidity('');
+    }
+  });
+
+  inputAddress.addEventListener('invalid', function (evt) {
+    if (!evt.target.value) {
+      evt.target.setCustomValidity('Установите пин');
+    } else {
+      evt.target.setCustomValidity('');
     }
   });
 
@@ -100,7 +117,27 @@ window.form = (function () {
     window.synchronizeFields(roomsNumber, guestCapacity, rooms, guests, syncValueWithOption);
   });
 
-  formSubmit.addEventListener('click', function () {
+  var onSave = function () {
+    formSubmit.style = 'background-color: green;';
+    formSubmit.textContent = 'Отправлено';
+  };
+
+  var onError = function (message) {
+    formSubmit.style = 'background-color: red;';
+    formSubmit.textContent = message;
+  };
+
+  formSubmit.addEventListener('click', function (evt) {
+    if (inputAddress.validity.valid && inputTitle.validity.valid && inputPrice.validity.valid) {
+      var data = new FormData(myForm);
+      evt.preventDefault();
+      window.backend.save(data, onSave, onError);
+    }
+  });
+
+  formReset.addEventListener('click', function () {
+    formSubmit.style = 'none';
+    formSubmit.textContent = 'Опубликовать';
   });
 
   return {
