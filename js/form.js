@@ -14,6 +14,32 @@ window.form = (function () {
   var formSubmit = myForm.querySelector('.form__submit');
   var myInputs = document.querySelectorAll('fieldset');
 
+  var timeIn = ['12:00', '13:00', '14:00'];
+  var timeOut = ['12:00', '13:00', '14:00'];
+  var apartmentTypes = ['bungalo', 'flat', 'house', 'palace'];
+  var apartmentPrices = ['0', '1000', '5000', '10000'];
+  var rooms = ['1', '2', '3', '100'];
+  var guests = ['2', '1, 2', '0, 1, 2', '3'];
+
+  var syncValues = function (element, value) {
+    element.value = value;
+  };
+
+  var syncValueWithMin = function (element, value) {
+    element.min = value;
+  };
+
+  var syncValueWithOption = function (element, value) {
+    for (var i = 0; i < element.options.length; i++) {
+      if (value.indexOf(i) !== -1) {
+        element.options[i].hidden = false;
+        element.options[i].selected = true;
+      } else {
+        element.options[i].hidden = true;
+      }
+    }
+  };
+
   var myInputsSwitch = function (arr, attr) {
     for (var i = 0; i < arr.length; i++) {
       arr[i].disabled = attr;
@@ -49,60 +75,30 @@ window.form = (function () {
     }
   });
 
-  inputType.addEventListener('change', function (evt) {
-    var target = evt.target;
-    inputPrice.setAttribute('min', priceList[target.selectedIndex] || minPrice);
+  inputType.addEventListener('change', function () {
+    window.synchronizeFields(inputType, inputPrice, apartmentTypes, apartmentPrices, syncValueWithMin);
   });
 
   inputPrice.addEventListener('invalid', function (evt) {
     var target = evt.target;
-    if (target.value < minPrice) {
-      target.setCustomValidity('Минимальное значение ' + minPrice);
+    if (target.value < priceList[inputType.selectedIndex]) {
+      target.setCustomValidity('Минимальное значение ' + priceList[inputType.selectedIndex]);
     } else {
       target.setCustomValidity('');
     }
   });
 
-  inputCheckIn.addEventListener('change', function (evt) {
-    inputCheckOut.selectedIndex = evt.target.selectedIndex;
+  inputCheckIn.addEventListener('change', function () {
+    window.synchronizeFields(inputCheckIn, inputCheckOut, timeIn, timeOut, syncValues);
   });
 
-  inputCheckOut.addEventListener('change', function (evt) {
-    inputCheckIn.selectedIndex = evt.target.selectedIndex;
+  inputCheckOut.addEventListener('change', function () {
+    window.synchronizeFields(inputCheckOut, inputCheckIn, timeOut, timeIn, syncValues);
   });
 
-  var roomsValidate = function () {
-    for (var i = 0; i < roomsNumber.options.length; i++) {
-      guestCapacity.options[i].hidden = false;
-    }
-    switch (roomsNumber.selectedIndex) {
-      case 0:
-        guestCapacity.options[0].hidden = true;
-        guestCapacity.options[1].hidden = true;
-        guestCapacity.options[3].hidden = true;
-        break;
-      case 1:
-        guestCapacity.options[0].hidden = true;
-        guestCapacity.options[3].hidden = true;
-        break;
-      case 2:
-        guestCapacity.options[3].hidden = true;
-        break;
-      case 3:
-        guestCapacity.options[0].hidden = true;
-        guestCapacity.options[1].hidden = true;
-        guestCapacity.options[2].hidden = true;
-    }
-    for (var j = 0; j < roomsNumber.options.length; j++) {
-      if (guestCapacity.options[j].hidden === true) {
-        guestCapacity.options[j].removeAttribute('selected');
-      } else {
-        guestCapacity.options[j].selected = true;
-      }
-    }
-  };
-  roomsValidate();
-  roomsNumber.addEventListener('change', roomsValidate);
+  roomsNumber.addEventListener('change', function () {
+    window.synchronizeFields(roomsNumber, guestCapacity, rooms, guests, syncValueWithOption);
+  });
 
   formSubmit.addEventListener('click', function () {
   });
