@@ -58,7 +58,7 @@ window.generatedHotels = (function () {
       for (var j = 0; j < count; j++) {
         arrNew[j] = arrRandom[j];
       }
-      list[i] = arrNew.join(', ');
+      list[i] = arrNew;
     }
     return list;
   };

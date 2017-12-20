@@ -1,7 +1,7 @@
 'use strict';
 
 window.backend = (function () {
-  var SERVER_URL = 'https://1510.dump.academy/keksobooking';
+  var SERVER_URL = 'https://1510.dump.academy/keksobooking1';
 
   var setup = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -15,13 +15,13 @@ window.backend = (function () {
       }
     });
     xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
+      onError('Произошла ошибка соединения' + xhr.status);
     });
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000;
+    xhr.timeout = 1000;
 
     return xhr;
   };
