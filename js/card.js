@@ -11,7 +11,7 @@ window.cards = (function () {
   var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
 
   var makeFeature = function (str) {
-    var arr = str.split(', ');
+    var arr = str;
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < arr.length; i++) {
       var item = document.createElement('li');

@@ -25,11 +25,11 @@
   window.backend.load(onLoad, onError);
 
   var renderMapPins = function () {
-    mapPins.appendChild(makeFragment(window.loadedHotels || window.generatedHotels, window.pins.render));
+    mapPins.appendChild(makeFragment(window.loadedHotels, window.pins.render));
   };
 
   var renderMapCards = function () {
-    mapBlock.insertBefore(makeFragment(window.loadedHotels|| window.generatedHotels, window.cards.render), mapFilters);
+    mapBlock.insertBefore(makeFragment(window.loadedHotels, window.cards.render), mapFilters);
   };
 
   var onMapClick = function (evt) {
