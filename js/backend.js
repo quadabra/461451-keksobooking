@@ -1,15 +1,15 @@
 'use strict';
 
 window.backend = (function () {
-  var SERVER_URL = 'https://1510.dump.academy/keksobooking/data';
+  var SERVER_URL = 'https://1510.dump.academy/keksobooking/data.';
 
-  var setup = function (onSuccess, onError) {
+  var setup = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        onSuccess(xhr.response);
+        onLoad(xhr.response);
       } else {
         onError(xhr.response);
       }
@@ -32,8 +32,8 @@ window.backend = (function () {
       xhr.open('GET', SERVER_URL + '/data');
       xhr.send();
     },
-    save: function (data, onSuccess, onError) {
-      var xhr = setup(onSuccess, onError);
+    save: function (data, onLoad, onError) {
+      var xhr = setup(onLoad, onError);
 
       xhr.open('POST', SERVER_URL);
       xhr.send(data);
