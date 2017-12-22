@@ -1,9 +1,6 @@
 'use strict';
 
 window.pins = (function () {
-  var mapBlock = document.querySelector('.map');
-  var mapPins = mapBlock.querySelector('.map__pins');
-  var myPin = mapBlock.querySelector('.map__pin--main');
   var OFFERS_SHOW = 5;
 
   var ANY_VALUE = 'any';
@@ -24,6 +21,9 @@ window.pins = (function () {
   var roomsFilter = document.querySelector('#housing-rooms');
   var guestsFilter = document.querySelector('#housing-guests');
   var featuresFilter = document.querySelector('#housing-features');
+  var mapBlock = document.querySelector('.map');
+  var mapPins = mapBlock.querySelector('.map__pins');
+  var myPin = mapBlock.querySelector('.map__pin--main');
 
   var filtrateFunctions = [
     function (hotel) {
