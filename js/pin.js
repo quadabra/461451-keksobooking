@@ -4,6 +4,7 @@ window.pins = (function () {
   var mapBlock = document.querySelector('.map');
   var mapPins = mapBlock.querySelector('.map__pins');
   var myPin = mapBlock.querySelector('.map__pin--main');
+  var OFFERS_SHOW = 5;
 
   var ANY_VALUE = 'any';
 
@@ -101,8 +102,8 @@ window.pins = (function () {
     },
     render: function (hotels) {
       var fragment = document.createDocumentFragment();
-      hotels.forEach(function (item) {
-        fragment.appendChild(window.pins.create(item));
+      hotels.forEach(function (item, i) {
+        if (i <= OFFERS_SHOW) fragment.appendChild(window.pins.create(item));
       });
       mapPins.appendChild(fragment);
 
