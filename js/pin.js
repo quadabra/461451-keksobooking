@@ -4,13 +4,111 @@ window.pins = (function () {
   var mapBlock = document.querySelector('.map');
   var mapPins = mapBlock.querySelector('.map__pins');
   var myPin = mapBlock.querySelector('.map__pin--main');
+  var OFFERS_SHOW = 5;
+
+  var ANY_VALUE = 'any';
+
+  var pricesData = {
+    low: {
+      NUMBER: 10000,
+      VALUE: 'low'
+    },
+    high: {
+      NUMBER: 50000,
+      VALUE: 'high'
+    }
+  };
+
+  var typeFilter = document.querySelector('#housing-type');
+  var priceFilter = document.querySelector('#housing-price');
+  var roomsFilter = document.querySelector('#housing-rooms');
+  var guestsFilter = document.querySelector('#housing-guests');
+  var featuresFilter = document.querySelector('#housing-features');
+
+  var filtrateFunctions = [
+    function (hotel) {
+      return (typeFilter.value === hotel.offer.type) || (typeFilter.value === ANY_VALUE);
+    },
+
+    function (hotel) {
+      switch (priceFilter.value) {
+        case pricesData.low.VALUE:
+          return hotel.offer.price < pricesData.low.NUMBER;
+        case pricesData.high.VALUE:
+          return hotel.offer.price > pricesData.high.NUMBER;
+        case ANY_VALUE:
+          return true;
+        default:
+          return hotel.offer.price >= pricesData.low.NUMBER && hotel.offer.price <= pricesData.high.NUMBER;
+      }
+    },
+
+    function (hotel) {
+      return (roomsFilter.value === hotel.offer.rooms.toString()) || (roomsFilter.value === ANY_VALUE);
+    },
+
+    function (hotel) {
+      return (guestsFilter.value === hotel.offer.guests.toString()) || (guestsFilter.value === ANY_VALUE);
+    },
+
+    function (hotel) {
+      var checkedElements = featuresFilter.querySelectorAll('input[type="checkbox"]:checked');
+      var selectedFeatures = [].map.call(checkedElements, function (item) {
+        return item.value;
+      });
+      return selectedFeatures.every(function (currentFeature) {
+        return hotel.offer.features.includes(currentFeature);
+      });
+    }
+  ];
+
+  var getFiltratedHotels = function (hotels) {
+    return hotels.filter(function (hotel) {
+      return filtrateFunctions.every(function (currentFunction) {
+        return currentFunction(hotel);
+      });
+    });
+  };
+
   return {
-    render: function (hotel) {
+    filtrate: function (hotels) {
+      var redrawPins = function () {
+        window.pins.update(getFiltratedHotels(hotels));
+        window.cards.update(getFiltratedHotels(hotels));
+      };
+      var onFilterChange = function () {
+        window.debounce(redrawPins);
+      };
+      typeFilter.addEventListener('change', onFilterChange);
+      priceFilter.addEventListener('change', onFilterChange);
+      roomsFilter.addEventListener('change', onFilterChange);
+      guestsFilter.addEventListener('change', onFilterChange);
+      featuresFilter.addEventListener('change', onFilterChange, true);
+    },
+    create: function (hotel) {
       var mapPin = document.querySelector('template').content.querySelector('.map__pin').cloneNode(true);
       mapPin.style.left = (hotel.location.x - 20) + 'px';
       mapPin.style.top = (hotel.location.y - 58) + 'px';
       mapPin.querySelector('img').src = hotel.author.avatar;
       return mapPin;
+    },
+    update: function (hotel) {
+      var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+      [].forEach.call(pins, function (item) {
+        mapPins.removeChild(item);
+      });
+
+      this.render(hotel);
+    },
+    render: function (hotels) {
+      var fragment = document.createDocumentFragment();
+      hotels.forEach(function (item, i) {
+        if (i < OFFERS_SHOW) {
+          fragment.appendChild(window.pins.create(item));
+        }
+      });
+      mapPins.appendChild(fragment);
+
     },
     pinSwitch: function (evt) {
       var target = evt.target;
