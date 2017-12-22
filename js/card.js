@@ -61,7 +61,8 @@ window.cards = (function () {
     },
 
     popupEsc: function (evt) {
-      if (evt.keyCode === 27) {
+      var ESC = 27;
+      if (evt.keyCode === ESC) {
         document.querySelector('.popup:not(.hidden)').classList.add('hidden');
         document.querySelector('.map__pin--active').classList.remove('map__pin--active');
       }

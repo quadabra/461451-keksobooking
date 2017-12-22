@@ -51,12 +51,14 @@
   };
 
   var onMapClick = function (evt) {
+    window.pins.pinSwitch(evt);
+    window.cards.popupSwitch();
+  };
+
+  var onCardClick = function (evt) {
     var target = evt.target;
     if (target.classList.contains('popup__close')) {
       window.cards.popupClose(evt);
-    } else {
-      window.pins.pinSwitch(evt);
-      window.cards.popupSwitch();
     }
   };
 
@@ -64,8 +66,10 @@
     renderMapPins();
     renderMapCards();
     window.form.enable();
+    window.pins.filtrate(loadedHotels);
     mapBlock.classList.remove('map--faded');
-    mapBlock.addEventListener('click', onMapClick);
+    mapBlock.addEventListener('click', onCardClick);
+    mapPins.addEventListener('click', onMapClick);
     document.addEventListener('keydown', window.cards.popupEsc);
     myPin.removeEventListener('mouseup', onPinSet);
   };
