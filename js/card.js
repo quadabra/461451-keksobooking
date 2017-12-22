@@ -1,6 +1,7 @@
 'use strict';
 
 window.cards = (function () {
+  var mapBlock = document.querySelector('.map');
 
   var typeReplaceEqual = {
     'flat': 'Квартира',
@@ -21,7 +22,7 @@ window.cards = (function () {
     return fragment;
   };
   return {
-    render: function (hotel) {
+    create: function (hotel) {
       var mapCard = mapCardTemplate.cloneNode(true);
       var featureList = mapCard.querySelector('.popup__features');
       while (featureList.firstChild) {
@@ -42,8 +43,23 @@ window.cards = (function () {
       return mapCard;
     },
 
+    update: function (hotel) {
+      var cardList = mapBlock.querySelectorAll('.map__card');
+      [].forEach.call(cardList, function (item) {
+        mapBlock.removeChild(item);
+      });
+      this.render(hotel);
+    },
+    render: function (hotels) {
+      var mapFilters = document.querySelector('.map__filters-container');
+      var fragment = document.createDocumentFragment();
+      hotels.forEach(function (item) {
+        fragment.appendChild(window.cards.create(item));
+      });
+      mapBlock.insertBefore(fragment, mapFilters);
+    },
+
     popupSwitch: function () {
-      var mapBlock = document.querySelector('.map');
       var cardList = mapBlock.querySelectorAll('.map__card');
       var pinList = mapBlock.querySelectorAll('.map__pin:not(.map__pin--main)');
       for (var i = 0; i < pinList.length; i++) {

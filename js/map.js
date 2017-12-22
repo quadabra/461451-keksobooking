@@ -5,15 +5,6 @@
   var mapBlock = document.querySelector('.map');
   var mapPins = mapBlock.querySelector('.map__pins');
   var myPin = mapBlock.querySelector('.map__pin--main');
-  var mapFilters = document.querySelector('.map__filters-container');
-
-  var makeFragment = function (arr, templates) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < arr.length; i++) {
-      fragment.appendChild(templates(arr[i]));
-    }
-    return fragment;
-  };
 
   var loadedHotels;
 
@@ -42,14 +33,6 @@
 
   window.backend.load(onLoad, onError);
 
-  var renderMapPins = function () {
-    mapPins.appendChild(makeFragment(loadedHotels || window.generatedHotels, window.pins.render));
-  };
-
-  var renderMapCards = function () {
-    mapBlock.insertBefore(makeFragment(loadedHotels || window.generatedHotels, window.cards.render), mapFilters);
-  };
-
   var onMapClick = function (evt) {
     window.pins.pinSwitch(evt);
     window.cards.popupSwitch();
@@ -63,8 +46,8 @@
   };
 
   var onPinSet = function () {
-    renderMapPins();
-    renderMapCards();
+    window.pins.render(loadedHotels);
+    window.cards.render(loadedHotels);
     window.form.enable();
     window.pins.filtrate(loadedHotels);
     mapBlock.classList.remove('map--faded');
