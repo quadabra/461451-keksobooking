@@ -103,7 +103,9 @@ window.pins = (function () {
     render: function (hotels) {
       var fragment = document.createDocumentFragment();
       hotels.forEach(function (item, i) {
-        if (i < OFFERS_SHOW) fragment.appendChild(window.pins.create(item));
+        if (i < OFFERS_SHOW) {
+          fragment.appendChild(window.pins.create(item));
+        }
       });
       mapPins.appendChild(fragment);
 
