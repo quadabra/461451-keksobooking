@@ -47,18 +47,18 @@ window.generatedHotels = (function () {
   ];
 
 
-  var generateFeatures = function (arr, amount) {
+  var generateFeatures = function (features, amount) {
     var list = [];
     for (var i = 0; i < amount; i++) {
-      var count = getRandomValue(1, arr.length);
-      var arrRandom = arr.sort(function () {
+      var count = getRandomValue(1, features.length);
+      var featuresRandom = features.sort(function () {
         return 0.5 - Math.random();
       });
-      var arrNew = [];
+      var featuresNew = [];
       for (var j = 0; j < count; j++) {
-        arrNew[j] = arrRandom[j];
+        featuresNew[j] = featuresRandom[j];
       }
-      list[i] = arrNew;
+      list[i] = featuresNew;
     }
     return list;
   };

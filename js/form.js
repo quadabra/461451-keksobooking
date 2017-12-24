@@ -2,6 +2,8 @@
 
 window.form = (function () {
 
+  var MAX_PRICE = 10000000;
+
   var myForm = document.querySelector('.notice__form');
   var inputTitle = myForm.querySelector('#title');
   var inputAddress = myForm.querySelector('#address');
@@ -41,9 +43,9 @@ window.form = (function () {
     }
   };
 
-  var myInputsSwitch = function (arr, attr) {
-    for (var i = 0; i < arr.length; i++) {
-      arr[i].disabled = attr;
+  var myInputsSwitch = function (inputFields, attribute) {
+    for (var i = 0; i < inputFields.length; i++) {
+      inputFields[i].disabled = attribute;
     }
   };
 
@@ -62,9 +64,8 @@ window.form = (function () {
     '3': '10000'
   };
   var minPrice = priceList[inputType.selectedIndex];
-  var maxPrice = 10000000;
   inputPrice.setAttribute('min', minPrice);
-  inputPrice.setAttribute('max', maxPrice);
+  inputPrice.setAttribute('max', MAX_PRICE);
   inputPrice.required = true;
 
   inputPrice.addEventListener('invalid', function (evt) {
