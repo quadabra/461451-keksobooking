@@ -50,7 +50,7 @@ window.cards = (function () {
       var featureList = mapCard.querySelector('.popup__features');
       var popupPictures = mapCard.querySelector('.popup__pictures');
 
-      //удаляю элементы в клоне блока.
+      // удаляю элементы в клоне блока.
       while (popupPictures.firstChild) {
         popupPictures.removeChild(popupPictures.firstChild);
       }
@@ -68,7 +68,7 @@ window.cards = (function () {
       mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + hotel.offer.checkin +
         ', выезд до ' + hotel.offer.checkout;
 
-      //добавляю нужное количество нужных элементов в клон блока
+      // добавляю нужное количество нужных элементов в клон блока
       featureList.appendChild(makeFeature(hotel.offer.features));
       mapCard.querySelector('p:last-of-type').textContent = hotel.offer.description;
       popupPictures.appendChild(makeCardImages(hotel.offer.photos));

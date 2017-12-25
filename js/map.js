@@ -64,5 +64,5 @@ window.map = (function () {
         return i < OFFERS_SHOW;
       });
     }
-  }
+  };
 })();

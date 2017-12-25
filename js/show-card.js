@@ -10,6 +10,5 @@ window.showCard = (function () {
       current.classList.add('hidden');
     }
     window.cards.list[index].classList.toggle('hidden');
-  }
+  };
 })();
-

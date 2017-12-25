@@ -28,7 +28,7 @@ window.form = (function () {
   var formPhotos = myForm.querySelector('#images');
   var formPhotosContainer = myForm.querySelector('.form__photo-container');
   var formPhotosUpload = myForm.querySelector('.form__photo-container > .upload');
-  //перестилизация отображения фотографий
+  // перестилизация отображения фотографий
   formPhotosUpload.style = 'width: 140px;';
   formPhotosContainer.style = 'display: flex; flex-wrap: wrap; width: auto;';
 
@@ -42,8 +42,8 @@ window.form = (function () {
 
   var syncValueWithOption = function (element, value) {
     [].forEach.call(element.options, function (item, i) {
-      (value.indexOf(i) !== -1) ? (item.hidden = false, item.selected = true) :
-        item.hidden = true;
+      item.hidden = (value.indexOf(i) === -1);
+      item.selected = (value.indexOf(i) !== -1);
     });
   };
 
@@ -73,18 +73,16 @@ window.form = (function () {
   inputPrice.required = true;
 
   inputPrice.addEventListener('invalid', function (evt) {
-    (!evt.target.value) ?
-      evt.target.setCustomValidity('Установите цену') : evt.target.setCustomValidity('');
+    evt.target.setCustomValidity((!evt.target.value) ? 'Установите цену' : '');
   });
 
   inputTitle.addEventListener('input', function (evt) {
-    (evt.target.value.length < 30 || evt.target.value.length > 100) ?
-      evt.target.setCustomValidity('От 30 до 100 символов') : evt.target.setCustomValidity('');
+    evt.target.setCustomValidity((evt.target.value.length < 30 || evt.target.value.length > 100) ?
+      'От 30 до 100 символов' : '');
   });
 
   inputAddress.addEventListener('invalid', function (evt) {
-    (!evt.target.value) ?
-      evt.target.setCustomValidity('Установите пин') : evt.target.setCustomValidity('');
+    evt.target.setCustomValidity((!evt.target.value) ? 'Установите пин' : '');
   });
 
   inputType.addEventListener('change', function () {
@@ -92,8 +90,8 @@ window.form = (function () {
   });
 
   inputPrice.addEventListener('invalid', function (evt) {
-    (evt.target.value < priceList[inputType.selectedIndex]) ?
-      evt.target.setCustomValidity('Минимальное значение ' + priceList[inputType.selectedIndex]) :  evt.target.setCustomValidity('');
+    evt.target.setCustomValidity((evt.target.value < priceList[inputType.selectedIndex]) ?
+      ('Минимальное значение ' + priceList[inputType.selectedIndex]) : '');
   });
 
   inputCheckIn.addEventListener('change', function () {
