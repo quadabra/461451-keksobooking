@@ -1,7 +1,7 @@
 'use strict';
 
-(function () {
-
+window.map = (function () {
+  var OFFERS_SHOW = 5;
   var mapBlock = document.querySelector('.map');
   var mapPins = mapBlock.querySelector('.map__pins');
   var myPin = mapBlock.querySelector('.map__pin--main');
@@ -35,12 +35,10 @@
 
   var onMapClick = function (evt) {
     window.pins.pinSwitch(evt);
-    window.cards.popupSwitch();
   };
 
   var onCardClick = function (evt) {
-    var target = evt.target;
-    if (target.classList.contains('popup__close')) {
+    if (evt.target.classList.contains('popup__close')) {
       window.cards.popupClose(evt);
     }
   };
@@ -60,4 +58,11 @@
   myPin.addEventListener('mousedown', window.pins.move);
   myPin.addEventListener('mouseup', onPinSet);
 
+  return {
+    offersToLoad: function (hotels) {
+      return hotels.filter(function (item, i) {
+        return i < OFFERS_SHOW;
+      });
+    }
+  }
 })();

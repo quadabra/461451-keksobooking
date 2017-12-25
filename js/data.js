@@ -1,3 +1,4 @@
+//файл не подключен. удалять в заданиях небыло.
 'use strict';
 window.generatedHotels = (function () {
 

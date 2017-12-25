@@ -1,9 +1,11 @@
 'use strict';
 
 window.pins = (function () {
-  var OFFERS_SHOW = 5;
-
   var ANY_VALUE = 'any';
+  var PIN_OFFSET = {
+    x: '20',
+    y: '58'
+  };
 
   var pricesData = {
     low: {
@@ -70,6 +72,10 @@ window.pins = (function () {
     });
   };
 
+  var getPinList = function () {
+    window.pins.list = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
+  };
+
   return {
     filtrate: function (hotels) {
       var redrawPins = function () {
@@ -85,30 +91,29 @@ window.pins = (function () {
       guestsFilter.addEventListener('change', onFilterChange);
       featuresFilter.addEventListener('change', onFilterChange, true);
     },
+
     create: function (hotel) {
       var mapPin = document.querySelector('template').content.querySelector('.map__pin').cloneNode(true);
-      mapPin.style.left = (hotel.location.x - 20) + 'px';
-      mapPin.style.top = (hotel.location.y - 58) + 'px';
+      mapPin.style.left = (hotel.location.x - PIN_OFFSET.x) + 'px';
+      mapPin.style.top = (hotel.location.y - PIN_OFFSET.y) + 'px';
       mapPin.querySelector('img').src = hotel.author.avatar;
       return mapPin;
     },
+
     update: function (hotel) {
-      var pins = mapPins.querySelectorAll('.map__pin:not(.map__pin--main)');
-      [].forEach.call(pins, function (item) {
+      [].forEach.call(window.pins.list, function (item) {
         mapPins.removeChild(item);
       });
-
       this.render(hotel);
     },
+
     render: function (hotels) {
       var fragment = document.createDocumentFragment();
-      hotels.forEach(function (item, i) {
-        if (i < OFFERS_SHOW) {
-          fragment.appendChild(window.pins.create(item));
-        }
+      window.map.offersToLoad(hotels).forEach(function (item) {
+        fragment.appendChild(window.pins.create(item));
       });
       mapPins.appendChild(fragment);
-
+      getPinList();
     },
     pinSwitch: function (evt) {
       var target = evt.target;
@@ -117,11 +122,10 @@ window.pins = (function () {
         if (target.className === 'map__pin' && target !== active) {
           target.classList.add('map__pin--active');
           active.classList.remove('map__pin--active');
+          window.showCard(target);
         } else if (target.className === 'map__pin map__pin--active') {
           target.classList.remove('map__pin--active');
-        }
-        if (target.className !== 'map__pin') {
-          active.classList.remove('map__pin--active');
+          window.showCard(target);
         }
         target = target.parentNode;
       }
@@ -179,6 +183,8 @@ window.pins = (function () {
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
-    }
+    },
+
+    list: ''
   };
 })();

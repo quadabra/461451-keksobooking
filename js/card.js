@@ -14,16 +14,16 @@ window.cards = (function () {
 
   var makeFeature = function (features) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (value) {
       var item = document.createElement('li');
       item.classList.add('feature');
-      item.classList.add('feature--' + features[i]);
+      item.classList.add('feature--' + value);
       fragment.appendChild(item);
-    }
+    });
     return fragment;
   };
 
-  var renderCardImages = function (images) {
+  var makeCardImages = function (images) {
     var fragment = document.createDocumentFragment();
     images.forEach(function (value) {
       var listItem = document.createElement('li');
@@ -36,14 +36,24 @@ window.cards = (function () {
     });
     return fragment;
   };
+
+  var getCardList = function () {
+    window.cards.list = mapBlock.querySelectorAll('.map__card');
+  };
+
   return {
     create: function (hotel) {
+      // клонирую блок
       var mapCard = mapCardTemplate.cloneNode(true);
+
+      // ищу нужные элементы в клоне блока
       var featureList = mapCard.querySelector('.popup__features');
       var popupPictures = mapCard.querySelector('.popup__pictures');
 
-      popupPictures.removeChild(popupPictures.firstChild);
-
+      //удаляю элементы в клоне блока.
+      while (popupPictures.firstChild) {
+        popupPictures.removeChild(popupPictures.firstChild);
+      }
       while (featureList.firstChild) {
         featureList.removeChild(featureList.firstChild);
       }
@@ -57,9 +67,11 @@ window.cards = (function () {
         + hotel.offer.guests + ' гостей';
       mapCard.querySelector('p:nth-of-type(4)').textContent = 'Заезд после ' + hotel.offer.checkin +
         ', выезд до ' + hotel.offer.checkout;
+
+      //добавляю нужное количество нужных элементов в клон блока
       featureList.appendChild(makeFeature(hotel.offer.features));
       mapCard.querySelector('p:last-of-type').textContent = hotel.offer.description;
-      popupPictures.appendChild(renderCardImages(hotel.offer.photos));
+      popupPictures.appendChild(makeCardImages(hotel.offer.photos));
       mapCard.classList.add('hidden');
       return mapCard;
     },
@@ -71,25 +83,16 @@ window.cards = (function () {
       });
       this.render(hotel);
     },
+
+    // функция отрисовывающая набор карточек.
     render: function (hotels) {
       var mapFilters = document.querySelector('.map__filters-container');
       var fragment = document.createDocumentFragment();
-      hotels.forEach(function (item) {
+      window.map.offersToLoad(hotels).forEach(function (item) {
         fragment.appendChild(window.cards.create(item));
       });
       mapBlock.insertBefore(fragment, mapFilters);
-    },
-
-    popupSwitch: function () {
-      var cardList = mapBlock.querySelectorAll('.map__card');
-      var pinList = mapBlock.querySelectorAll('.map__pin:not(.map__pin--main)');
-      for (var i = 0; i < pinList.length; i++) {
-        if (pinList[i].classList.contains('map__pin--active')) {
-          cardList[i].classList.remove('hidden');
-        } else if (!cardList[i].classList.contains('hidden')) {
-          cardList[i].classList.add('hidden');
-        }
-      }
+      getCardList();
     },
 
     popupClose: function (evt) {
@@ -102,6 +105,8 @@ window.cards = (function () {
         document.querySelector('.popup:not(.hidden)').classList.add('hidden');
         document.querySelector('.map__pin--active').classList.remove('map__pin--active');
       }
-    }
+    },
+
+    list: ''
   };
 })();

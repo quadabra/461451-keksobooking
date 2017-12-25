@@ -8,11 +8,8 @@ window.backend = (function () {
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onLoad(xhr.response);
-      } else {
-        onError('произошла ошибка соединения ' + xhr.status);
-      }
+      (xhr.status === 200) ?
+        onLoad(xhr.response) : onError('произошла ошибка соединения ' + xhr.status);
     });
     xhr.addEventListener('error', function () {
       onError('Произошла ошибка соединения ' + xhr.status);

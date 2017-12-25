@@ -3,6 +3,13 @@
 window.form = (function () {
 
   var MAX_PRICE = 10000000;
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var TIME_IN = ['12:00', '13:00', '14:00'];
+  var TIME_OUT = ['12:00', '13:00', '14:00'];
+  var APARTMENT_TYPES = ['bungalo', 'flat', 'house', 'palace'];
+  var APARTMENT_PRICES = ['0', '1000', '5000', '10000'];
+  var ROOMS = ['1', '2', '3', '100'];
+  var GUESTS = ['2', '1, 2', '0, 1, 2', '3'];
 
   var myForm = document.querySelector('.notice__form');
   var inputTitle = myForm.querySelector('#title');
@@ -16,13 +23,14 @@ window.form = (function () {
   var formSubmit = myForm.querySelector('.form__submit');
   var myInputs = document.querySelectorAll('fieldset');
   var formReset = myForm.querySelector('.form__reset');
-
-  var timeIn = ['12:00', '13:00', '14:00'];
-  var timeOut = ['12:00', '13:00', '14:00'];
-  var apartmentTypes = ['bungalo', 'flat', 'house', 'palace'];
-  var apartmentPrices = ['0', '1000', '5000', '10000'];
-  var rooms = ['1', '2', '3', '100'];
-  var guests = ['2', '1, 2', '0, 1, 2', '3'];
+  var formAvatar = myForm.querySelector('#avatar');
+  var noticePreview = myForm.querySelector('.notice__preview > img');
+  var formPhotos = myForm.querySelector('#images');
+  var formPhotosContainer = myForm.querySelector('.form__photo-container');
+  var formPhotosUpload = myForm.querySelector('.form__photo-container > .upload');
+  //перестилизация отображения фотографий
+  formPhotosUpload.style = 'width: 140px;';
+  formPhotosContainer.style = 'display: flex; flex-wrap: wrap; width: auto;';
 
   var syncValues = function (element, value) {
     element.value = value;
@@ -33,20 +41,16 @@ window.form = (function () {
   };
 
   var syncValueWithOption = function (element, value) {
-    for (var i = 0; i < element.options.length; i++) {
-      if (value.indexOf(i) !== -1) {
-        element.options[i].hidden = false;
-        element.options[i].selected = true;
-      } else {
-        element.options[i].hidden = true;
-      }
-    }
+    [].forEach.call(element.options, function (item, i) {
+      (value.indexOf(i) !== -1) ? (item.hidden = false, item.selected = true) :
+        item.hidden = true;
+    });
   };
 
   var myInputsSwitch = function (inputFields, attribute) {
-    for (var i = 0; i < inputFields.length; i++) {
-      inputFields[i].disabled = attribute;
-    }
+    inputFields.forEach(function (item) {
+      item.disabled = attribute;
+    });
   };
 
   var inputDisable = true;
@@ -69,53 +73,39 @@ window.form = (function () {
   inputPrice.required = true;
 
   inputPrice.addEventListener('invalid', function (evt) {
-    if (!evt.target.value) {
-      evt.target.setCustomValidity('Установите цену');
-    } else {
-      evt.target.setCustomValidity('');
-    }
+    (!evt.target.value) ?
+      evt.target.setCustomValidity('Установите цену') : evt.target.setCustomValidity('');
   });
 
   inputTitle.addEventListener('input', function (evt) {
-    var target = evt.target;
-    if (target.value.length < 30 || target.value.length > 100) {
-      target.setCustomValidity('От 30 до 100 символов');
-    } else {
-      target.setCustomValidity('');
-    }
+    (evt.target.value.length < 30 || evt.target.value.length > 100) ?
+      evt.target.setCustomValidity('От 30 до 100 символов') : evt.target.setCustomValidity('');
   });
 
   inputAddress.addEventListener('invalid', function (evt) {
-    if (!evt.target.value) {
-      evt.target.setCustomValidity('Установите пин');
-    } else {
-      evt.target.setCustomValidity('');
-    }
+    (!evt.target.value) ?
+      evt.target.setCustomValidity('Установите пин') : evt.target.setCustomValidity('');
   });
 
   inputType.addEventListener('change', function () {
-    window.synchronizeFields(inputType, inputPrice, apartmentTypes, apartmentPrices, syncValueWithMin);
+    window.synchronizeFields(inputType, inputPrice, APARTMENT_TYPES, APARTMENT_PRICES, syncValueWithMin);
   });
 
   inputPrice.addEventListener('invalid', function (evt) {
-    var target = evt.target;
-    if (target.value < priceList[inputType.selectedIndex]) {
-      target.setCustomValidity('Минимальное значение ' + priceList[inputType.selectedIndex]);
-    } else {
-      target.setCustomValidity('');
-    }
+    (evt.target.value < priceList[inputType.selectedIndex]) ?
+      evt.target.setCustomValidity('Минимальное значение ' + priceList[inputType.selectedIndex]) :  evt.target.setCustomValidity('');
   });
 
   inputCheckIn.addEventListener('change', function () {
-    window.synchronizeFields(inputCheckIn, inputCheckOut, timeIn, timeOut, syncValues);
+    window.synchronizeFields(inputCheckIn, inputCheckOut, TIME_IN, TIME_OUT, syncValues);
   });
 
   inputCheckOut.addEventListener('change', function () {
-    window.synchronizeFields(inputCheckOut, inputCheckIn, timeOut, timeIn, syncValues);
+    window.synchronizeFields(inputCheckOut, inputCheckIn, TIME_OUT, TIME_IN, syncValues);
   });
 
   roomsNumber.addEventListener('change', function () {
-    window.synchronizeFields(roomsNumber, guestCapacity, rooms, guests, syncValueWithOption);
+    window.synchronizeFields(roomsNumber, guestCapacity, ROOMS, GUESTS, syncValueWithOption);
   });
 
   var onSave = function () {
@@ -133,6 +123,7 @@ window.form = (function () {
       var data = new FormData(myForm);
       evt.preventDefault();
       window.backend.save(data, onSave, onError);
+      myForm.reset();
     }
   });
 
@@ -140,6 +131,48 @@ window.form = (function () {
     formSubmit.style = 'none';
     formSubmit.textContent = 'Опубликовать';
   });
+
+  formAvatar.addEventListener('change', function () {
+    var file = formAvatar.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        noticePreview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
+
+  formPhotos.addEventListener('change', function () {
+    var file = formPhotos.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        var photo = document.createElement('img');
+        photo.src = reader.result;
+        photo.height = 70;
+        photo.style = 'margin: 0 5px 5px';
+        formPhotosContainer.appendChild(photo);
+      });
+      reader.readAsDataURL(file);
+    }
+  });
+
 
   return {
     enable: function () {
