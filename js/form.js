@@ -130,6 +130,7 @@ window.form = (function () {
   formReset.addEventListener('click', function () {
     formSubmit.style = 'none';
     formSubmit.textContent = 'Опубликовать';
+    myForm.reset();
   });
 
   formAvatar.addEventListener('change', function () {
