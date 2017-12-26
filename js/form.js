@@ -149,7 +149,7 @@ window.form = (function () {
 
   var showAvatar = function (reader) {
     noticePreview.src = reader.result;
-    removeEventListener('load', showAvatar);
+    reader.removeEventListener('load', showAvatar);
   };
 
   var showPhoto = function (reader) {
@@ -158,6 +158,7 @@ window.form = (function () {
     photo.height = 70;
     photo.style = 'margin: 0 5px 5px';
     formPhotosContainer.appendChild(photo);
+    reader.removeEventListener('load', showAvatar);
   };
 
   formAvatar.addEventListener('change', function () {
