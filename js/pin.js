@@ -26,6 +26,7 @@ window.pins = (function () {
   var mapBlock = document.querySelector('.map');
   var mapPins = mapBlock.querySelector('.map__pins');
   var myPin = mapBlock.querySelector('.map__pin--main');
+  var mapPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
   var filtrateFunctions = [
     function (hotel) {
@@ -93,7 +94,7 @@ window.pins = (function () {
     },
 
     create: function (hotel) {
-      var mapPin = document.querySelector('template').content.querySelector('.map__pin').cloneNode(true);
+      var mapPin = mapPinTemplate.cloneNode(true);
       mapPin.style.left = (hotel.location.x - PIN_OFFSET.x) + 'px';
       mapPin.style.top = (hotel.location.y - PIN_OFFSET.y) + 'px';
       mapPin.querySelector('img').src = hotel.author.avatar;

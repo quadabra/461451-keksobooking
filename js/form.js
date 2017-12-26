@@ -131,47 +131,41 @@ window.form = (function () {
     myForm.reset();
   });
 
+  var photoLoader = function (source, callback) {
+    var file = source.files[0];
+    var fileName = file.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.addEventListener('load', function () {
+        callback(reader);
+      });
+    }
+  };
+
+  var showAvatar = function (reader) {
+    noticePreview.src = reader.result;
+    removeEventListener('load', showAvatar);
+  };
+
+  var showPhoto = function (reader) {
+    var photo = document.createElement('img');
+    photo.src = reader.result;
+    photo.height = 70;
+    photo.style = 'margin: 0 5px 5px';
+    formPhotosContainer.appendChild(photo);
+  };
+
   formAvatar.addEventListener('change', function () {
-    var file = formAvatar.files[0];
-    var fileName = file.name.toLowerCase();
-
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-
-    if (matches) {
-      var reader = new FileReader();
-
-      reader.addEventListener('load', function () {
-        noticePreview.src = reader.result;
-      });
-
-      reader.readAsDataURL(file);
-    }
+    photoLoader(formAvatar, showAvatar);
   });
-
   formPhotos.addEventListener('change', function () {
-    var file = formPhotos.files[0];
-    var fileName = file.name.toLowerCase();
-
-    var matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-
-    if (matches) {
-      var reader = new FileReader();
-
-      reader.addEventListener('load', function () {
-        var photo = document.createElement('img');
-        photo.src = reader.result;
-        photo.height = 70;
-        photo.style = 'margin: 0 5px 5px';
-        formPhotosContainer.appendChild(photo);
-      });
-      reader.readAsDataURL(file);
-    }
+    photoLoader(formPhotos, showPhoto);
   });
-
 
   return {
     enable: function () {
